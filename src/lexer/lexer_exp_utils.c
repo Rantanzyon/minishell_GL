@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:02 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 00:08:32 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 23:36:26 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	ft_lstadd_str(t_data *data, char *name, int n)
 		new_stru = (t_lex *)malloc(sizeof(t_lex));
 		if (!new_stru)
 			reloop(data, "new_stru : Allocation failure (convert_exp)");
-		new_stru->pretok = CHAR;
+		if (name[i] == ' ')
+			new_stru->pretok = ESPACE;
+		else
+			new_stru->pretok = CHAR;
 		new_stru->c = name[i];
 		new_node = ft_lstnew(new_stru);
 		if (!new_node)
@@ -44,7 +47,7 @@ static char	*create_name(t_data *data, t_list *cursor)
 	len = 0;
 	nextnode = cursor->next;
 	while (nextnode && (((t_lex *)nextnode->content)->c == '_' || \
-			ft_isalpha(((t_lex *)nextnode->content)->c)))
+			ft_isalnum(((t_lex *)nextnode->content)->c)))
 	{
 		len++;
 		nextnode = nextnode->next;

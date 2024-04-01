@@ -38,16 +38,12 @@ INCLUDE = include
 LIBFT_DIR = libft
 LIBFT = libft/libft.a
 
-
-FILE_O = 0
-FILE_C=$(words $(filter %.c,$(SRC)))
-
-
+FILE_C := $(shell find src -type f | wc -l)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
-	$(eval FILE_O := $(shell echo $$(($(FILE_O) + 1))))
+	@$(eval FILE_O := $(shell find obj -type f 2>/dev/null | wc -l))
 	@printf "$(YEL)\rMinishell [%d%%]$(DEF)" $$(($(FILE_O) * 100 / $(FILE_C)))
 
 all : $(NAME)
@@ -57,7 +53,6 @@ $(NAME) : $(OBJ)
 	@echo
 	@make -C $(LIBFT_DIR) --no-print-directory
 	@$(CC) $(CFLAGS) $^ -o $@ $(LIBFT) -lreadline
-
 	@echo "$(GRN)Compiled.$(DEF)"
 
 clean :
@@ -93,6 +88,8 @@ else
     YEL = \033[0;93m
 	CYN = \033[0;96m
 	DEF = \033[0m
+	BGYEL = \033[30;43m
+	BG = \033[30;45m
 endif
 
 

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 13:16:12 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:27:28 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_ast(t_ast *c)
 		free_ast(c->left);
 	if (c->right)
 		free_ast(c->right);
+		//printf("%s\n", c->str);
 	free(c->str);
 	free(c);
 }
@@ -67,7 +68,7 @@ void	data_destroy_exit(t_data *data, int status, char *err)
 {
 	data_destroy(data, err);
 	free(data);
-	rl_clear_history();
+	clear_history();
 	exit(status);
 }
 

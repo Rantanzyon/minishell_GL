@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 17:45:53 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:28:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_lex(t_data *data)
 		else if (((t_lex *)cursor->content)->pretok == OSEF)
 			pretok_str = "OSEF";
 		else
-			pretok_str = "SPACE";
+			pretok_str = "ESPACE";
 		printf("%c: %s\n", ((t_lex *)cursor->content)->c, pretok_str);
 		cursor = cursor->next;
 	}
@@ -49,7 +49,7 @@ void	print_lst(t_list **lst)
 	cursor = *lst;
 	while (cursor)
 	{
-		printf("[%d]%s ", ((t_final *)cursor->content)->token, ((t_final *)cursor->content)->str);
+		printf("%s ",((t_final *)cursor->content)->str);
 		cursor = cursor->next;
 	}
 	printf("\n");

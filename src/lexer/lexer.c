@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 14:11:20 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:26:34 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	lexer(t_data *data)
 	lexer_fill_char(data);
 	lexer_quote(data);
 	lexer_expand(data);
+	//print_lex(data);
 	lexer_quote_final(data);
+	//print_lex(data);
 	lexer_final(data);
+	//print_lex(data);
 }

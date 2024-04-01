@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:23:40 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 01:22:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 22:16:57 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	is_r_redir(t_data *data, t_list **cursor)
 		word = ft_strdup(">>");
 		if (!word)
 			reloop(data, "word : Allocation failure (is_r_redir)");
-		ft_add_token(data, word, LL_REDIR);
+		ft_add_token(data, word, RR_REDIR);
 		*cursor = (*cursor)->next;
 	}
 	else
@@ -62,7 +62,7 @@ static void	is_r_redir(t_data *data, t_list **cursor)
 		word = ft_strdup(">");
 		if (!word)
 			reloop(data, "word : Allocation failure (is_r_redir)");
-		ft_add_token(data, word, L_REDIR);
+		ft_add_token(data, word, R_REDIR);
 	}
 	*cursor = (*cursor)->next;
 }

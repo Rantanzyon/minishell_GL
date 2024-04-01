@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/01 19:57:16 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:18:49 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_ast
 typedef struct s_data
 {
 	char	*input;
+	char	**argv;
 	char	**envp;
 	t_list	**lex;
 	t_list	**final_lex;
@@ -79,7 +80,7 @@ typedef struct s_data
 }	t_data;
 
 void	prompt(t_data *data);
-t_data	*data_creation(char **envp);
+t_data	*data_creation(char **argv, char **envp);
 void	data_init(t_data *data);
 void	ft_loop(t_data *data);
 void	reloop(t_data *data, char *err);
