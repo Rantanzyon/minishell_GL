@@ -1,0 +1,7 @@
+{
+    Supprimer toutes les allocations de readline
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/x86_64-linux-gnu/libreadline.so*
+    ...
+}
