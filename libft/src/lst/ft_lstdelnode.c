@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelnode_bonus.c                              :+:      :+:    :+:   */
+/*   ft_lstdelnode.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 22:51:34 by glemaire          #+#    #+#             */
-/*   Updated: 2024/03/24 22:57:08 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:29:48 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	bridge(t_list **a, int index)
 		{
 			temp->next = cursor->next;
 			free(cursor);
+			return ;
 		}
 		temp = cursor;
 		cursor = cursor->next;

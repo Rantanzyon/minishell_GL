@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/01 00:11:19 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 19:57:16 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ enum e_Token
 	R_REDIR,
 	RR_REDIR,
 	LL_REDIR,
-	WORD
+	WORD,
+	FILENAME
 };
 
 enum e_Pretok
@@ -41,13 +42,7 @@ enum e_Pretok
 	SQ,
 	CHAR,
 	OSEF,
-	SPACE
-};
-
-enum e_Assoc
-{
-	LEFT,
-	RIGHT
+	ESPACE
 };
 
 typedef struct s_lex
@@ -64,8 +59,9 @@ typedef struct s_final
 
 typedef struct s_ast
 {
-	char			*content;
+	char			*str;
 	int				token;
+	// struct s_final *node;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -102,6 +98,7 @@ void	remove_osef(t_data *data);
 
 void	parser(t_data *data);
 void	syntax_check(t_data *data);
+void	rename_tok(t_data *data);
 void	ast(t_data *data);
 
 void	print_lex(t_data *data);

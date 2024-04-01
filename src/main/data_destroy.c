@@ -6,35 +6,37 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 09:23:15 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:16:12 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* void	free_ast(t_ast *node)
+void	free_ast(t_ast *c)
 {
-	if (node->left)
-		free_ast(node->left);
-	if (node->right)
-		free_ast(node->right);
-	free(node->content);
-	free(node);
-} */
+	if (c->left)
+		free_ast(c->left);
+	if (c->right)
+		free_ast(c->right);
+	free(c->str);
+	free(c);
+}
 
 void	free_final_lex(t_list **a)
 {
 	t_list	*temp;
-	
+	t_list	*cursor;
+
 	if (!a)
 		return ;
-	while (*a)
+	cursor = *a;
+	while (cursor)
 	{
-		temp = (*a)->next;
-		free(((t_final *)(*a)->content)->str);
-		free((*a)->content);
-		free(*a);
-		*a = temp;
+		temp = cursor->next;
+		free(((t_final *)cursor->content)->str); // char *str
+		free(((t_final *)cursor->content)); // content (= struct t_final)
+		free(cursor);
+		cursor = temp;
 	}
 	free(a);
 }
@@ -50,11 +52,13 @@ void	data_destroy(t_data *data, char *err)
 	{
 		ft_lstclear(data->lex, free);
 		free(data->lex);
-		//data->final_lex = NULL;
-		//printf("oui\n");
 		free_final_lex(data->final_lex);
-		//printf("oui\n");
-		//free_ast(*data->ast);
+
+ 		if (data->ast)
+		{
+			free_ast(*data->ast);
+			free(data->ast);
+		}
 		free(data->input);
 	}
 }

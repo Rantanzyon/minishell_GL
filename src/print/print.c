@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_lexer.c                                      :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/03/31 23:30:16 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 17:45:53 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_lst(t_list **lst)
 	cursor = *lst;
 	while (cursor)
 	{
-		printf("%s ", ((t_final *)cursor->content)->str);
+		printf("[%d]%s ", ((t_final *)cursor->content)->token, ((t_final *)cursor->content)->str);
 		cursor = cursor->next;
 	}
 	printf("\n");
@@ -60,9 +60,13 @@ void	print_ast(t_ast *tree, int n)
 	int i;
 
 	i = n;
-
+	//printf("PRINT AST\n");
 	if (tree->right)
+	{
+		//printf("%d\n", n);
 		print_ast(tree->right, n + 1);
+	}
+	//printf("AST2\n");
 	while (i-- > 0)
 		printf("\t");
 	if (tree)
@@ -75,10 +79,15 @@ void	print_ast(t_ast *tree, int n)
 			printf("\033[30;45m");
 		else if (tree->token == WORD)
 			printf("\033[30;47m");
-		printf("[%d] %s ", n, tree->content);
+		else if (tree->token == FILENAME)
+			printf("\033[30;43m");
+		printf("[%d] %s ", n, tree->str);
 		printf("\033[0m");
 		printf("\n");
 	}
 	if (tree->left)
+	{
+		//printf("%d\n", n);	
 		print_ast(tree->left, n + 1);
+	}
 }

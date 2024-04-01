@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:03:48 by glemaire          #+#    #+#             */
-/*   Updated: 2024/03/31 23:58:48 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:02:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	syntax_check(t_data *data)
 					"minishell: syntax error near unexpected token `newline'");
 		}
 		if (((t_final *)c->content)->token != WORD && \
+			((t_final *)c->content)->token != FILENAME && \
 			((t_final *)c->content)->token != PIPE)
 			syntax_error(data, c->next);
 		c = c->next;

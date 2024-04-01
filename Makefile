@@ -24,10 +24,12 @@ SRC = $(addprefix $(MDIR)/, \
 	$(addprefix $(PDIR)/, \
 	parser.c \
 	syntax_error.c \
+	rename_tok.c \
 	ast.c \
 	) \
 	src/print/print.c \
-	src/print/print_tree.c
+#	ast.c \
+#	src/print/print_tree.c
 
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 OBJ_DIR = obj
@@ -48,13 +50,14 @@ $(OBJ_DIR)/%.o: %.c
 	$(eval FILE_O := $(shell echo $$(($(FILE_O) + 1))))
 	@printf "$(YEL)\rMinishell [%d%%]$(DEF)" $$(($(FILE_O) * 100 / $(FILE_C)))
 
+all : $(NAME)
+
 $(NAME) : $(OBJ)
 	@printf "\r$(YEL)Minishell [100%%]$(DEF)"
 	@echo
 	@make -C $(LIBFT_DIR) --no-print-directory
 	@$(CC) $(CFLAGS) $^ -o $@ $(LIBFT) -lreadline
 
-all : $(NAME)
 	@echo "$(GRN)Compiled.$(DEF)"
 
 clean :
@@ -82,6 +85,7 @@ ifeq ($(shell uname), Linux)
     RED = \e[0;91m
     GRN = \e[0;92m
     YEL = \e[0;93m
+	CYN = \e[0;96m
 	DEF = \e[0m
 else
     RED = \033[0;31m

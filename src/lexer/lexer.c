@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 00:09:43 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:11:20 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	ft_check_char(char c)
 	else if (c == '\'')
 		return (SQ);
 	else if (c == ' ')
-		return (SPACE);
+		return (ESPACE);
 	else
 		return (CHAR);
 }
