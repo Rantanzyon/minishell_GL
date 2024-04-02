@@ -72,6 +72,9 @@ re : fclean all
 run : re
 	@./$(NAME)
 
+color :
+	@./test.sh
+
 .PHONY : all clean fclean re test
 
 .SILENT:
