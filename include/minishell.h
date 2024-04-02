@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/02 00:18:49 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:08:25 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_ast
 {
 	char			*str;
 	int				token;
-	// struct s_final *node;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -101,6 +100,10 @@ void	parser(t_data *data);
 void	syntax_check(t_data *data);
 void	rename_tok(t_data *data);
 void	ast(t_data *data);
+void	rec(t_data *data, t_ast *c, int start, int end);
+int		ft_lstchr(t_list **lex, int start, int end, int token);
+int		ft_findlast(t_list **lex, int start, int end, int token);
+t_ast	*fill_node(t_data *data, t_ast *c, int i);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);

@@ -26,6 +26,7 @@ SRC = $(addprefix $(MDIR)/, \
 	syntax_error.c \
 	rename_tok.c \
 	ast.c \
+	ast_utils.c \
 	) \
 	src/print/print.c \
 #	ast.c \

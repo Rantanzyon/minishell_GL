@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 14:00:26 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:51:27 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	free_ast(t_ast *c)
 		free_ast(c->left);
 	if (c->right)
 		free_ast(c->right);
-		//printf("%s\n", c->str);
 	free(c->str);
 	free(c);
 }
@@ -34,8 +33,8 @@ void	free_final_lex(t_list **a)
 	while (cursor)
 	{
 		temp = cursor->next;
-		free(((t_final *)cursor->content)->str); // char *str
-		free(((t_final *)cursor->content)); // content (= struct t_final)
+		free(((t_final *)cursor->content)->str);
+		free(((t_final *)cursor->content));
 		free(cursor);
 		cursor = temp;
 	}
@@ -54,8 +53,7 @@ void	data_destroy(t_data *data, char *err)
 		ft_lstclear(data->lex, free);
 		free(data->lex);
 		free_final_lex(data->final_lex);
-
- 		if (data->ast)
+		if (data->ast)
 		{
 			free_ast(*data->ast);
 			free(data->ast);

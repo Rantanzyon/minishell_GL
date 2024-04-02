@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:02 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 23:36:26 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:50:19 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,18 @@ t_list	*exp_var(t_data *data, t_list *cursor)
 	char	*name;
 	int		len;
 	int		i;
+	int		j;
 
 	name = create_name(data, cursor);
 	len = ft_strlen(name);
 	i = ft_lstindex(data->lex, cursor);
-	ft_lstdel_n(data->lex, len + 1, i);
+	j = 0;
+	while (j < len + 1)
+	{
+		free(((t_lex *)ft_lstat(data->lex, i)->content));
+		ft_lstdelnode(data->lex, i);
+		j++;
+	}
 	add_exp(data, name, len, i);
 	cursor = ft_lstat(data->lex, i);
 	return (cursor);

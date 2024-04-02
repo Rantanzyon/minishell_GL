@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 18:39:28 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/02 00:41:42 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:50:04 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 		name = ft_strdup(data->argv[0] + 2);
 	if (!name)
 		reloop(data, "name : Allocation failure (convert_exp)");
-	ft_lstdel_n(data->lex, 2, i);
+	free(((t_lex *)ft_lstat(data->lex, i)->content));
+	ft_lstdelnode(data->lex, i);
+	free(((t_lex *)ft_lstat(data->lex, i)->content));
+	ft_lstdelnode(data->lex, i);
 	ft_lstadd_str(data, name, i);
 	cursor = ft_lstat(data->lex, i);
 	free(name);
@@ -36,7 +39,7 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 int	next_ignore_exp(t_lex *next)
 {
 	char	special_char[7];
-	
+
 	special_char[0] = '~';
 	special_char[1] = '%';
 	special_char[2] = '+';
@@ -44,12 +47,11 @@ int	next_ignore_exp(t_lex *next)
 	special_char[4] = '=';
 	special_char[5] = ':';
 	special_char[6] = ',';
-
 	if (ft_strchr(special_char, next->c))
 		return (1);
 	if (next->pretok == ESPACE || next->pretok == DQ)
 		return (1);
-	return (0);	
+	return (0);
 }
 
 void	lexer_expand(t_data *data)
