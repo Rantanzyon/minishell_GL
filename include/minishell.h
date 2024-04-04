@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/03 22:57:07 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:14:54 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <errno.h>
+# include <sys/wait.h>
 
 enum e_Token
 {
@@ -61,6 +62,7 @@ typedef struct s_ast
 {
 	char			*str;
 	int				token;
+	int				fdhd;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -117,6 +119,7 @@ int		ft_lstchr(t_list **lex, int start, int end, int token);
 int		ft_findlast(t_list **lex, int start, int end, int token);
 t_ast	*fill_node(t_data *data, t_ast *c, int i);
 
+void	executer(t_data *data);
 void	exec(t_data *data, t_ast *c, int in, int out);
 
 void	print_lex(t_data *data);
