@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 16:51:27 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/03 07:23:05 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	data_destroy_exit(t_data *data, int status, char *err)
 {
 	data_destroy(data, err);
 	free(data);
-	rl_clear_history();
+	clear_history();
 	exit(status);
 }
 

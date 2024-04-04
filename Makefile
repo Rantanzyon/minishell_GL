@@ -28,6 +28,9 @@ SRC = $(addprefix $(MDIR)/, \
 	ast.c \
 	ast_utils.c \
 	) \
+	$(addprefix $(EDIR)/, \
+	exec.c \
+	) \
 	src/print/print.c \
 #	ast.c \
 #	src/print/print_tree.c
@@ -74,7 +77,7 @@ run : re
 	@./$(NAME)
 
 color :
-	@./test.sh
+	@./color.sh
 
 .PHONY : all clean fclean re test
 

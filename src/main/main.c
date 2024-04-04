@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:46 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 00:42:56 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/04 00:19:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_loop(t_data *data)
 		prompt(data);
 		lexer(data);
 		parser(data);
+		exec(data, *(data->ast), STDIN_FILENO, STDOUT_FILENO);
+		wait(NULL);
 		data_destroy(data, NULL);
 	}
 }

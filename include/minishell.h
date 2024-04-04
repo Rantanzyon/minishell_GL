@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/02 16:08:25 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/03 22:57:07 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 enum e_Token
 {
 	PIPE,
+	WORD,
+	FILENAME,
 	L_REDIR,
 	R_REDIR,
 	RR_REDIR,
-	LL_REDIR,
-	WORD,
-	FILENAME
+	LL_REDIR
 };
 
 enum e_Pretok
@@ -65,17 +65,29 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
+typedef struct s_exec
+{
+	int	fd_in;
+	int	fd_out;
+	int	here_doc;
+	int	exit_status;
+	
+}	t_exec;
+
 typedef struct s_data
 {
 	char	*input;
 	char	**argv;
 	char	**envp;
+	t_list	**env;
 	t_list	**lex;
 	t_list	**final_lex;
 	t_ast	**ast;
+	t_exec	*exec;
 	int		exit_status;
 	int		actual_pid;
 	int		here_doc;
+	
 }	t_data;
 
 void	prompt(t_data *data);
@@ -104,6 +116,8 @@ void	rec(t_data *data, t_ast *c, int start, int end);
 int		ft_lstchr(t_list **lex, int start, int end, int token);
 int		ft_findlast(t_list **lex, int start, int end, int token);
 t_ast	*fill_node(t_data *data, t_ast *c, int i);
+
+void	exec(t_data *data, t_ast *c, int in, int out);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
