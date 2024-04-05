@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 18:39:28 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/05 09:28:06 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:18:40 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 	if (nextok == '$')
 		name = ft_itoa(data->actual_pid);
 	else if (nextok == '?')
-		name = ft_itoa(data->exec->exit_status);
+		name = ft_itoa(data->exit);
 	else
 		name = ft_strdup(data->argv[0] + 2);
 	if (!name)

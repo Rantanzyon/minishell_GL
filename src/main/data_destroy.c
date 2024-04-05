@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/05 06:36:46 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:40:24 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ void	free_ast(t_ast *c)
 		free_ast(c->right);
 	free(c->str);
 	free(c);
+}
+
+void	free_env(t_list **a)
+{
+	t_list	*temp;
+	t_list	*cursor;
+
+	if (!a)
+		return ;
+	cursor = *a;
+	while (cursor)
+	{
+		temp = cursor->next;
+		free(cursor->content);
+		free(cursor);
+		cursor = temp;
+	}
+	free(a);
 }
 
 void	free_final_lex(t_list **a)
@@ -53,6 +71,7 @@ void	data_destroy(t_data *data, char *err)
 		ft_lstclear(data->lex, free);
 		free(data->lex);
 		free_final_lex(data->final_lex);
+		free_env(data->env);
 		if (data->ast)
 		{
 			free_ast(*data->ast);
@@ -66,7 +85,7 @@ void	data_destroy_exit(t_data *data, int status, char *err)
 {
 	data_destroy(data, err);
 	free(data);
-	clear_history();
+	rl_clear_history();
 	exit(status);
 }
 

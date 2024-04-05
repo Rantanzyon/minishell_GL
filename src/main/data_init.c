@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/05 09:21:49 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:18:05 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	env_creation(t_data *data)
 		new = ft_lstnew(str);
 		if (!new)
 			reloop(data, "new: Allocation Failure (env_creation)");
-		//printf("%s\n", ((char *)new->content));
 		ft_lstadd_back(data->env, new);
 		i++;
 	}
@@ -44,9 +43,9 @@ void	data_init(t_data *data)
 	data->lex = NULL;
 	data->final_lex = NULL;
 	data->ast = NULL;
-	data->exec->fd_in = STDIN_FILENO;
-	data->exec->fd_out = STDOUT_FILENO;
-	data->exec->here_doc = -1;
+	data->fd_in = STDIN_FILENO;
+	data->fd_out = STDOUT_FILENO;
+	data->here_doc = -1;
 	env_creation(data);
 	//data->actual_pid = 74749;
 }

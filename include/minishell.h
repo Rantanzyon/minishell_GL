@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/05 09:28:13 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:54:17 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,6 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-typedef struct s_exec
-{
-	int	fd_in;
-	int	fd_out;
-	int	here_doc;
-	int	exit_status;
-	
-}	t_exec;
-
 typedef struct s_data
 {
 	char	*input;
@@ -85,9 +76,11 @@ typedef struct s_data
 	t_list	**lex;
 	t_list	**final_lex;
 	t_ast	**ast;
-	t_exec	*exec;
 	int		actual_pid;
+	int		fd_in;
+	int		fd_out;
 	int		here_doc;
+	int		exit;
 	
 }	t_data;
 
@@ -120,6 +113,8 @@ t_ast	*fill_node(t_data *data, t_ast *c, int i);
 
 void	executer(t_data *data);
 void	exec(t_data *data, t_ast *c, int in, int out);
+void	multi_expr(t_data *data, t_ast *c, int in, int out);
+void	heredoc(t_data *data);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
