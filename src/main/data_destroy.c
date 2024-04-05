@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/04 16:10:28 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 06:36:46 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,12 @@ void	free_final_lex(t_list **a)
 	free(a);
 }
 
-void	data_destroy(t_data *data, char *err, char *str)
+void	data_destroy(t_data *data, char *err)
 {
 	if (err)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(err, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		perror(err);
 	}
 	if (data)
 	{
@@ -65,16 +62,16 @@ void	data_destroy(t_data *data, char *err, char *str)
 	}
 }
 
-void	data_destroy_exit(t_data *data, int status, char *err, char *str)
+void	data_destroy_exit(t_data *data, int status, char *err)
 {
-	data_destroy(data, err, str);
+	data_destroy(data, err);
 	free(data);
-	rl_clear_history();
+	clear_history();
 	exit(status);
 }
 
-void	reloop(t_data *data, char *err, char *str)
+void	reloop(t_data *data, char *err)
 {
-	data_destroy(data, err, str);
+	data_destroy(data, err);
 	ft_loop(data);
 }

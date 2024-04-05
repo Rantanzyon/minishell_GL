@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/04 14:14:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:28:13 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct s_data
 	t_list	**final_lex;
 	t_ast	**ast;
 	t_exec	*exec;
-	int		exit_status;
 	int		actual_pid;
 	int		here_doc;
 	

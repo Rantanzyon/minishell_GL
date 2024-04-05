@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/04 15:02:59 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/05 09:29:10 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	l_redir(t_data *data, t_ast *c)
 		close(data->exec->fd_in);
 	data->exec->fd_in = open(c->str, O_RDONLY);
 	if (data->exec->fd_in == -1)
-		data_destroy_exit(data, 1, strerror(errno), c->str);
+		data_destroy_exit(data, EXIT_FAILURE, c->str);
 }
 
 void	ll_redir(t_data *data)
@@ -35,7 +35,7 @@ void	r_redir(t_data *data, t_ast *c)
 	data->exec->fd_out = open(c->str,
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->exec->fd_in == -1)
-		data_destroy_exit(data, 1, strerror(errno), c->str);
+		data_destroy_exit(data, 1, c->str);
 }
 
 void	rr_redir(t_data *data, t_ast *c)
@@ -46,7 +46,7 @@ void	rr_redir(t_data *data, t_ast *c)
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->exec->fd_out == -1)
 	if (data->exec->fd_in == -1)
-		data_destroy_exit(data, 1, strerror(errno), c->str);
+		data_destroy_exit(data, 1, c->str);
 }
 
 void	update_redir(t_data *data, t_ast *c)
@@ -86,7 +86,7 @@ void	exec_cmd(t_data *data, t_ast *c)
 	}
 	args = (char **)malloc((i + 1) * sizeof(char *));
 	if (!args)
-		data_destroy_exit(data, 1, strerror(errno), "args");
+		data_destroy_exit(data, 1, "args");
 	temp = c;
 	i = 0;
 	while (temp)
@@ -145,10 +145,26 @@ void	exec_cmd(t_data *data, t_ast *c)
 		i++;
 	}
 	if (res == -1)
-		data_destroy_exit(data, 1, "cmd doesnt exist");
+	{
+		//perror(args[0]);
+		//if (c != (*data->ast))
+			data_destroy_exit(data, 1, args[0]);
+	}
 }
 
-void	exec(t_data *data, t_ast *c, int in, int out)
+
+
+void	expression(t_data *data, t_ast *c, int in, int out)
+{
+	data->exec->fd_in = in;
+	data->exec->fd_out = out;
+	update_redir(data, c);
+	dup2(data->exec->fd_in, STDIN_FILENO);
+	dup2(data->exec->fd_out, STDOUT_FILENO);
+	exec_cmd(data, c);
+}
+
+void	multi_expr(t_data *data, t_ast *c, int in, int out)
 {
 	int		fd[2];
 	pid_t	pid1;
@@ -158,87 +174,74 @@ void	exec(t_data *data, t_ast *c, int in, int out)
 	if (c->token == PIPE)
 	{
 		if (pipe(fd) == -1)
-			data_destroy_exit(data, -1, "pipe fail");
-
-		printf("fd[0] = %d | fd[1] = %d\n", fd[0], fd[1]);
-
-
-		
-		pid2 = fork();
-		if (pid2 < 0)
-			data_destroy_exit(data, EXIT_FAILURE, strerror(errno));
-		else if (pid2 == 0)
-		{
-			close(out);
-			close(fd[0]);
-			exec(data, c->left, in, fd[1]);
-		}
+			data_destroy_exit(data, EXIT_FAILURE, "pipe");
 
 		pid1 = fork();
-		if (pid1 < 0)
-			data_destroy_exit(data, EXIT_FAILURE, strerror(errno));
+		if (pid1 == -1)
+			data_destroy_exit(data, EXIT_FAILURE, "fork()");
 		else if (pid1 == 0)
 		{
-			close(in);
-			close(fd[1]);
-			exec(data, c->right, fd[0], out);
+			close(fd[0]);
+			multi_expr(data, c->left, in, fd[1]);
 		}
-		close(in);
-		close(out);
+
+		pid2 = fork();
+		if (pid2 == -1)
+			data_destroy_exit(data, EXIT_FAILURE, "fork()");
+		else if (pid2 == 0)
+		{
+			close(fd[1]);
+			multi_expr(data, c->right, fd[0], out);
+		}
 		close(fd[0]);
 		close(fd[1]);
+		
 		waitpid(pid1, &status, 0);
 		if (WIFEXITED(status))
 			data->exec->exit_status = WEXITSTATUS(status);
-		if (c != *(data->ast))
+		waitpid(pid2, &status, 0);
+		if (WIFEXITED(status))
+			data->exec->exit_status = WEXITSTATUS(status);
+
+ 		if (c != *(data->ast))
 			data_destroy_exit(data, data->exec->exit_status, NULL);
-		
+		else
+			reloop(data, NULL);
 	}
 	else
+		expression(data, c, in, out);
+}
+
+void	single_expr(t_data *data, t_ast *c)
+{
+	pid_t	pid;
+	int	status;
+
+	pid = fork();
+	if (pid == -1)
+		reloop(data, "fork()");
+	if (pid == 0)
 	{
-		//child1(data, c, fd_prev);
-		data->exec->fd_in = in;
-		data->exec->fd_out = out;
-		
-		//pid_t pid3;
-
-		printf("str = %s | in = %d | out = %d\n", c->str, data->exec->fd_in, data->exec->fd_out);
-		//pid3 = fork();
-
 		update_redir(data, c);
 		dup2(data->exec->fd_in, STDIN_FILENO);
 		dup2(data->exec->fd_out, STDOUT_FILENO);
-		//close(in);
-		//close(out);
 		exec_cmd(data, c);
-			
-		
-		//reloop(data, NULL);
-		
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		data->exec->exit_status = WEXITSTATUS(status);
+	//printf("%d\n", data->exec->exit_status);
+	reloop(data, NULL);
 }
-
-/* void	do_heredoc(t_data *data, t_ast *c)
-{
-	char	*str;
-	
-	if (c->left)
-		do_heredoc(data, c->left);
-	if (c->right)
-		do_heredoc(data, c->right);
-	if (c->token == LL_REDIR)
-	{
-		while (1)
-		{
-			str
-		}
-	}
-		
-	
-} */
 
 void	executer(t_data *data)
 {
+	t_ast	*c;
+
+	c = (*data->ast);
 	//do_heredoc(data, *(data->ast));
-	exec(data, *(data->ast), STDIN_FILENO, STDOUT_FILENO);
+	if (c->token == PIPE)
+		multi_expr(data, c, STDIN_FILENO, STDOUT_FILENO);
+	else
+		single_expr(data, c);
 }
