@@ -6,11 +6,20 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/05 11:40:24 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 13:57:01 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_fd(t_ast *c)
+{
+	if (c->hdfd != -1)
+	{
+		close(c->hdfd);
+		c->hdfd = -1;
+	}
+}
 
 void	free_ast(t_ast *c)
 {
@@ -18,6 +27,7 @@ void	free_ast(t_ast *c)
 		free_ast(c->left);
 	if (c->right)
 		free_ast(c->right);
+	close_fd(c);
 	free(c->str);
 	free(c);
 }
@@ -85,7 +95,7 @@ void	data_destroy_exit(t_data *data, int status, char *err)
 {
 	data_destroy(data, err);
 	free(data);
-	rl_clear_history();
+	clear_history();
 	exit(status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:28 by bbialy            #+#    #+#             */
-/*   Updated: 2024/03/31 21:24:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:08:24 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	d_quote(t_data *data, t_list **cursor, int *active)
 	{
 		if (((t_lex *)(*cursor)->content)->c == '$')
 			((t_lex *)(*cursor)->content)->pretok = EXP;
-		else
+		else if (((t_lex *)(*cursor)->content)->pretok != EMPTY_STR)
 			((t_lex *)(*cursor)->content)->pretok = CHAR;
 		*cursor = (*cursor)->next;
 	}
@@ -36,7 +36,8 @@ static void	s_quote(t_data *data, t_list **cursor, int *active)
 	*cursor = (*cursor)->next;
 	while (*cursor && ((t_lex *)(*cursor)->content)->c != '\'')
 	{
-		((t_lex *)(*cursor)->content)->pretok = CHAR;
+		if (((t_lex *)(*cursor)->content)->pretok != EMPTY_STR)
+			((t_lex *)(*cursor)->content)->pretok = CHAR;
 		*cursor = (*cursor)->next;
 	}
 	if (*cursor)

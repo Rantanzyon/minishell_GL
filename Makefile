@@ -30,6 +30,12 @@ SRC = $(addprefix $(MDIR)/, \
 	) \
 	$(addprefix $(EDIR)/, \
 	exec.c \
+	heredoc.c \
+	single_exp.c \
+	multi_exp.c \
+	update_redir.c \
+	exec_cmd.c \
+	builtin.c \
 	) \
 	src/print/print.c \
 #	ast.c \
@@ -98,5 +104,3 @@ else
 	BGYEL = \033[30;43m
 	BG = \033[30;45m
 endif
-
-

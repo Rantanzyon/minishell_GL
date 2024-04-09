@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:21 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 00:03:07 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:10:56 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	ft_final_dq(t_list **cursor)
 	*cursor = (*cursor)->next;
 	while (*cursor && (((t_lex *)(*cursor)->content))->pretok != DQ)
 	{
-		(((t_lex *)(*cursor)->content))->pretok = CHAR;
+		if (((t_lex *)(*cursor)->content)->pretok != EMPTY_STR)
+			(((t_lex *)(*cursor)->content))->pretok = CHAR;
 		*cursor = (*cursor)->next;
 	}
 	(((t_lex *)(*cursor)->content))->pretok = OSEF;
@@ -30,7 +31,8 @@ static void	ft_final_sq(t_list **cursor)
 	*cursor = (*cursor)->next;
 	while (*cursor && (((t_lex *)(*cursor)->content))->pretok != SQ)
 	{
-		(((t_lex *)(*cursor)->content))->pretok = CHAR;
+		if (((t_lex *)(*cursor)->content)->pretok != EMPTY_STR)
+			(((t_lex *)(*cursor)->content))->pretok = CHAR;
 		*cursor = (*cursor)->next;
 	}
 	(((t_lex *)(*cursor)->content))->pretok = OSEF;

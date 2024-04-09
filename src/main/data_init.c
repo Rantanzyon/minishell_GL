@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/05 11:18:05 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:02:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	data_init(t_data *data)
 	data->ast = NULL;
 	data->fd_in = STDIN_FILENO;
 	data->fd_out = STDOUT_FILENO;
-	data->here_doc = -1;
+	//data->here_doc = -1;
 	env_creation(data);
 	//data->actual_pid = 74749;
 }

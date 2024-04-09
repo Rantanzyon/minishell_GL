@@ -6,72 +6,68 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 12:52:19 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/05 13:08:23 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:15:27 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	eof(char *lim, t_data *data)
+static int	ft_limiter_cmp(char *limiter, char *line)
 {
-	free(lim);
-	ft_printf("bash: warning: ");
-	ft_printf("here-document at line 1 delimited by end-of-file ");
-	ft_printf("(wanted `%s')\n", data->av[2]);
-	destroy_all(data, "", EXIT_FAILURE);
+	if (ft_strlen(limiter) == ft_strlen(line) - 1)
+	{
+		if (!ft_strncmp(limiter, line, ft_strlen(line) - 1)
+			&& line[ft_strlen(line) - 1] == '\n')
+			return (0);
+	}
+	return (-1);
 }
 
-static void	gnl_heredoc(t_data *data)
+static void	fill_heredoc(int fd, char *limiter)
 {
-	char	*str;
-	char	*lim;
+	char	*line;
 
-	lim = ft_strjoin(data->av[2], "\n");
-	if (!lim)
-		destroy_all(data, "lim", EXIT_FAILURE);
-	pipe(data->pipefd);
+	line = NULL;
 	while (1)
 	{
-		str = get_next_line(1);
-		if (!str)
-			eof(lim, data);
-		if (ft_strcmp(str, lim) == 0)
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
 		{
-			free(str);
+			ft_putstr_fd("\nUser input terminated\n", STDERR_FILENO);
+			free(line);
 			break ;
 		}
-		ft_putstr_fd(str, data->pipefd[1]);
-		free(str);
+		if (!ft_limiter_cmp(limiter, line))
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd(line, fd);
+		free(line);
 	}
-	free(lim);
 }
 
-void	do_heredoc(t_data *data, t_ast *c)
+static void	do_heredoc(t_data *data, t_ast *node)
 {
-	char	*str;
-	char	*lim;
-	int		fd[2];
-	
-	lim = ft_strjoin(data->av[2], "\n");
-	if (!lim)
-		reloop(data, "lim");
-	while (1)
-	{
-		ft_putstr_fd(">", STDOUT_FILENO);
-		
-	}
-	
-	
-	
+	int		hdfd[2];
+	char	*limiter;
+
+	if (pipe(hdfd) == -1)
+		reloop(data, "pipe hd failure");
+	node->hdfd = hdfd[0];
+	limiter = node->left->str;
+	fill_heredoc(hdfd[1], limiter);
+	close(hdfd[1]);
 }
 
-void	heredoc(t_data *data, t_ast *c)
+void	heredoc(t_data *data, t_ast *node)
 {
-	if (c && c->token == LL_REDIR)
-		do_heredoc(data, c->left);
-	else if (c)
+	if (node)
 	{
-		heredoc(data, c->left);
-		heredoc(data, c->right);
+		if (node->token == LL_REDIR)
+			do_heredoc(data, node);
+		heredoc(data, node->left);
+		heredoc(data, node->right);
 	}
 }

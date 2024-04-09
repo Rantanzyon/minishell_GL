@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:23:40 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/01 22:16:57 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:40:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,23 @@ static void	is_word(t_data *data, t_list **cursor)
 	ft_add_token(data, word, WORD);
 }
 
+static void	is_empty(t_data *data, t_list **cursor)
+{
+	char	*word;
+
+	word = ft_strdup("");
+	if (!word)
+		reloop(data, "word : Allocation failure (is_word)");
+	ft_add_token(data, word, WORD);
+	*cursor = (*cursor)->next;
+}
+
 void	lexer_final(t_data *data)
 {
 	t_list	*cursor;
 
 	remove_osef(data);
+	remove_empty(data);
 	data->final_lex = (t_list **)malloc(sizeof(t_list *));
 	if (!data->final_lex)
 		reloop(data, "data->final_lex : Allocation failure (regroup_lex)");
@@ -112,6 +124,8 @@ void	lexer_final(t_data *data)
 			is_r_redir(data, &cursor);
 		else if (((t_lex *)cursor->content)->pretok == CHAR)
 			is_word(data, &cursor);
+		else if (((t_lex *)cursor->content)->pretok == EMPTY_STR)
+			is_empty(data, &cursor);
 		else if (((t_lex *)cursor->content)->c == '|')
 			is_pipe(data, &cursor);
 		else

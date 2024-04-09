@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 16:49:43 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:24:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ static void	ft_add_pretoken(t_data *data, char c, int pretok)
 	ft_lstadd_back(data->lex, node);
 }
 
+static void	check_empty_string(t_data *data, int i)
+{
+	char	cur;
+	char	next;
+
+	cur = data->input[i];
+	next = data->input[i + 1];
+	if ((cur == '\'' && next && next == '\'') || \
+		(cur == '"' && next && next == '"'))
+		ft_add_pretoken(data, 'E', EMPTY_STR);
+}
+
 static void	lexer_fill_char(t_data *data)
 {
 	int		i;
@@ -60,6 +72,7 @@ static void	lexer_fill_char(t_data *data)
 		c = data->input[i];
 		pretok = ft_check_char(data->input[i]);
 		ft_add_pretoken(data, c, pretok);
+		check_empty_string(data, i);
 		i++;
 	}
 }
@@ -71,4 +84,5 @@ void	lexer(t_data *data)
 	lexer_expand(data);
 	lexer_quote_final(data);
 	lexer_final(data);
+	//print_lst(data->final_lex);
 }

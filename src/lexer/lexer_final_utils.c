@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:18:13 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/01 00:02:51 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 09:01:52 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,31 @@ void	remove_osef(t_data *data)
 		}
 		else
 			cursor = cursor->next;
+	}
+}
+
+void	remove_empty(t_data *data)
+{
+	t_list	*c;
+	t_list	*prev;
+	int		index;
+
+	prev = NULL;
+	c = *data->lex;
+	while(c)
+	{
+		if (((t_lex *)c->content)->pretok == EMPTY_STR && \
+			((prev && ((t_lex *)prev->content)->pretok == CHAR) || \
+			(c->next && ((t_lex *)c->next->content)->pretok == CHAR)))
+		{
+			index = ft_lstindex(data->lex, c);
+			ft_lstdelnode(data->lex, index);
+			c = ft_lstat(data->lex, index);
+		}
+		else
+		{
+			prev = c;	
+			c = c->next;
+		}
 	}
 }

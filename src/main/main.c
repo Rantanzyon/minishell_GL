@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:46 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/05 11:40:36 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:19:21 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_loop(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-
 	if (argc != 1)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 1);
 	data = data_creation(argv, envp);

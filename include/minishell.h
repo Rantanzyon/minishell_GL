@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/05 12:54:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:37:33 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/include/libft.h"
+# include "minishell_errors.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -43,7 +44,8 @@ enum e_Pretok
 	SQ,
 	CHAR,
 	OSEF,
-	ESPACE
+	ESPACE,
+	EMPTY_STR
 };
 
 typedef struct s_lex
@@ -62,7 +64,7 @@ typedef struct s_ast
 {
 	char			*str;
 	int				token;
-	int				fdhd;
+	int				hdfd;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -79,7 +81,6 @@ typedef struct s_data
 	int		actual_pid;
 	int		fd_in;
 	int		fd_out;
-	int		here_doc;
 	int		exit;
 	
 }	t_data;
@@ -101,6 +102,7 @@ void	lexer_quote_final(t_data *data);
 void	lexer_final(t_data *data);
 void	ft_add_token(t_data *data, char *word, int token);
 void	remove_osef(t_data *data);
+void	remove_empty(t_data *data);
 
 void	parser(t_data *data);
 void	syntax_check(t_data *data);
@@ -113,8 +115,14 @@ t_ast	*fill_node(t_data *data, t_ast *c, int i);
 
 void	executer(t_data *data);
 void	exec(t_data *data, t_ast *c, int in, int out);
+void	single_expr(t_data *data, t_ast *c);
 void	multi_expr(t_data *data, t_ast *c, int in, int out);
-void	heredoc(t_data *data);
+void	heredoc(t_data *data, t_ast *c);
+void	update_redir(t_data *data, t_ast *c);
+void	exec_cmd(t_data *data, t_ast *c);
+void	do_execve(t_data *data, char **path, char **args);
+
+void	check_builtin(t_data *data, t_ast *c);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);

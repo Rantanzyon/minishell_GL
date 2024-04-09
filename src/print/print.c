@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 01:28:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:01:24 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	print_lex(t_data *data)
 			pretok_str = "CHAR";
 		else if (((t_lex *)cursor->content)->pretok == OSEF)
 			pretok_str = "OSEF";
+		else if (((t_lex *)cursor->content)->pretok == EMPTY_STR)
+			pretok_str = "EMPTY_STR";
 		else
 			pretok_str = "ESPACE";
 		printf("%c: %s\n", ((t_lex *)cursor->content)->c, pretok_str);
