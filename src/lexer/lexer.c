@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/07 09:24:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:27:11 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static void	ft_add_pretoken(t_data *data, char c, int pretok)
 
 	cursor = (t_lex *)malloc(sizeof(t_lex));
 	if (!cursor)
-		reloop(data, "c : Allocation failure (ft_add_pretoken)");
+		reloop(data, "cursor", strerror(ENOMEM));
 	cursor->c = c;
 	cursor->pretok = pretok;
 	node = ft_lstnew(cursor);
 	if (!node)
-		reloop(data, "node : Allocation failure (ft_add_pretoken)");
+		reloop(data, "node", strerror(ENOMEM));
 	ft_lstadd_back(data->lex, node);
 }
 
@@ -65,7 +65,7 @@ static void	lexer_fill_char(t_data *data)
 	i = 0;
 	data->lex = (t_list **)malloc(sizeof(t_list *));
 	if (!data->lex)
-		reloop(data, "data->final_lex : Allocation failure (data->lex)");
+		reloop(data, "data->lex", strerror(ENOMEM));
 	*(data->lex) = NULL;
 	while (data->input[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:28:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 19:28:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:47:55 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	single_expr(t_data *data, t_ast *c)
 	//check_exit(data, c);
 	pid = fork();
 	if (pid == -1)
-		reloop(data, "fork()");
+		reloop(data, "fork", strerror(errno));
 	if (pid == 0)
 	{
 		update_redir(data, c);
@@ -32,5 +32,5 @@ void	single_expr(t_data *data, t_ast *c)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
-	reloop(data, NULL);
+	reloop(data, NULL, NULL);
 }

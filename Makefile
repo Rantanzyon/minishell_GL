@@ -36,6 +36,7 @@ SRC = $(addprefix $(MDIR)/, \
 	update_redir.c \
 	exec_cmd.c \
 	builtin.c \
+	builtin_echo.c \
 	) \
 	src/print/print.c \
 #	ast.c \

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:47:59 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/02 16:48:57 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:43:01 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	fillnode_pipe(t_data *data, t_ast *c, int start, int end)
 	ft_lstdelnode(data->final_lex, i);
 	c->right = (t_ast *)malloc(sizeof(t_ast));
 	if (!c->right)
-		reloop(data, "c->right: Allocation Failure (fillnode_pipe)");
+		reloop(data, "c->right", strerror(ENOMEM));
 	rec(data, c->right, i, end - 1);
 	c->left = (t_ast *)malloc(sizeof(t_ast));
 	if (!c->left)
-		reloop(data, "c->left: Allocation Failure (fillnode_pipe)");
+		reloop(data, "c->left", strerror(ENOMEM));
 	rec(data, c->left, start, i);
 }
 
@@ -38,7 +38,7 @@ static void	fillnode_redir(t_data *data, t_ast *c, int start, int end)
 	c = fill_node(data, c, i);
 	c->left = (t_ast *)malloc(sizeof(t_ast));
 	if (!c->left)
-		reloop(data, "c->left: Allocation Failure (fillnode_redir)");
+		reloop(data, "c->left", strerror(ENOMEM));
 	c->left = fill_node(data, c->left, i + 1);
 	free(((t_final *)ft_lstat(data->final_lex, i)->content));
 	ft_lstdelnode(data->final_lex, i);
@@ -48,7 +48,7 @@ static void	fillnode_redir(t_data *data, t_ast *c, int start, int end)
 	{
 		c->right = (t_ast *)malloc(sizeof(t_ast));
 		if (!c->right)
-			reloop(data, "c->right: Allocation Failure (fillnode_redir)");
+			reloop(data, "c->right", strerror(ENOMEM));
 	}
 	rec(data, c->right, start, end - 2);
 }
@@ -65,7 +65,7 @@ static void	fillnode_word(t_data *data, t_ast *c, int start, int end)
 	{
 		c->right = (t_ast *)malloc(sizeof(t_ast));
 		if (!c->right)
-			reloop(data, "c->right: Allocation Failure (fillnode_word)");
+			reloop(data, "c->right", strerror(ENOMEM));
 	}
 	rec(data, c->right, start, end - 1);
 }
@@ -87,10 +87,10 @@ void	ast(t_data *data)
 
 	data->ast = (t_ast **)malloc(sizeof(t_ast *));
 	if (!data->ast)
-		reloop(data, "c->ast2: Allocation Failure (ast2)");
+		reloop(data, "data->ast", strerror(ENOMEM));
 	c = (t_ast *)malloc(sizeof(t_ast));
 	if (!c)
-		reloop(data, "c: Allocation Failure (ast2)");
+		reloop(data, "c", strerror(ENOMEM));
 	*(data->ast) = c;
 	rec(data, c, 0, ft_lstsize(*(data->final_lex)));
 }

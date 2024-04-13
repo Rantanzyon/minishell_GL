@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:28 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/07 00:08:24 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:36:16 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	d_quote(t_data *data, t_list **cursor, int *active)
 	if (*cursor)
 		*active = 0;
 	else
-		reloop(data, "Syntax error: Unclosed quote");
+		reloop(data, NULL, SYNTX_ERR_UNCLOSED);
 }
 
 static void	s_quote(t_data *data, t_list **cursor, int *active)
@@ -43,7 +43,7 @@ static void	s_quote(t_data *data, t_list **cursor, int *active)
 	if (*cursor)
 		*active = 0;
 	else
-		reloop(data, "Syntax error: Unclosed quote");
+		reloop(data, NULL, SYNTX_ERR_UNCLOSED);
 }
 
 void	lexer_quote(t_data *data)

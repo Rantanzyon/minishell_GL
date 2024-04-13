@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 18:39:28 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/05 11:18:40 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:30:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 	else
 		name = ft_strdup(data->argv[0] + 2);
 	if (!name)
-		reloop(data, "name : Allocation failure (convert_exp)");
+		reloop(data, "name", strerror(ENOMEM));
 	free(((t_lex *)ft_lstat(data->lex, i)->content));
 	ft_lstdelnode(data->lex, i);
 	free(((t_lex *)ft_lstat(data->lex, i)->content));

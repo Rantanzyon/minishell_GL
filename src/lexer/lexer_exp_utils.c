@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:02 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/02 16:50:19 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:31:32 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_lstadd_str(t_data *data, char *name, int n)
 	{
 		new_stru = (t_lex *)malloc(sizeof(t_lex));
 		if (!new_stru)
-			reloop(data, "new_stru : Allocation failure (convert_exp)");
+			reloop(data, "new_stru", strerror(ENOMEM));
 		if (name[i] == ' ')
 			new_stru->pretok = ESPACE;
 		else
@@ -31,7 +31,7 @@ void	ft_lstadd_str(t_data *data, char *name, int n)
 		new_stru->c = name[i];
 		new_node = ft_lstnew(new_stru);
 		if (!new_node)
-			reloop(data, "new_node : Allocation failure (convert_exp)");
+			reloop(data, "new_node", strerror(ENOMEM));
 		ft_lstadd_at(data->lex, new_node, n++);
 		i++;
 	}
@@ -54,7 +54,7 @@ static char	*create_name(t_data *data, t_list *cursor)
 	}
 	name = malloc((len + 1) * sizeof(char));
 	if (!name)
-		reloop(data, "name : Allocation failure (exp_var)");
+		reloop(data, "name", strerror(ENOMEM));
 	i = 0;
 	nextnode = cursor->next;
 	while (i < len)
@@ -73,12 +73,12 @@ static void	ft_lstadd_osef(t_data *data, int i)
 
 	new_stru = (t_lex *)malloc(sizeof(t_lex));
 	if (!new_stru)
-		reloop(data, "new_stru : Allocation failure (convert_exp)");
+		reloop(data, "new_stru", strerror(ENOMEM));
 	new_stru->pretok = OSEF;
 	new_stru->c = ' ';
 	new_node = ft_lstnew(new_stru);
 	if (!new_node)
-		reloop(data, "new_node : Allocation failure (convert_exp)");
+		reloop(data, "new_node", strerror(ENOMEM));
 	ft_lstadd_at(data->lex, new_node, i);
 }
 
@@ -97,7 +97,7 @@ static void	add_exp(t_data *data, char *name, int len, int i)
 			exp = ft_substr(data->envp[j], len + 1, \
 				ft_strlen(data->envp[j]) - (len + 1));
 			if (!exp)
-				reloop(data, "exp : Allocation failure (exp_var)");
+				reloop(data, "exp", strerror(ENOMEM));
 		}
 		j++;
 	}

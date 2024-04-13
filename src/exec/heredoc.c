@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 12:52:19 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 15:15:27 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:46:56 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	do_heredoc(t_data *data, t_ast *node)
 	char	*limiter;
 
 	if (pipe(hdfd) == -1)
-		reloop(data, "pipe hd failure");
+		reloop(data, "pipe", strerror(errno));
 	node->hdfd = hdfd[0];
 	limiter = node->left->str;
 	fill_heredoc(hdfd[1], limiter);

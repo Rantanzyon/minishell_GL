@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:18:13 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/07 09:01:52 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:30:19 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_add_token(t_data *data, char *word, int token)
 	if (!new_struct)
 	{
 		free(word);
-		reloop(data, "new_struct : Allocation failure (ft_add_token)");
+		reloop(data, "new_struct", strerror(ENOMEM));
 	}
 	new_struct->token = token;
 	new_struct->str = word;
@@ -29,7 +29,7 @@ void	ft_add_token(t_data *data, char *word, int token)
 	if (!new_node)
 	{
 		free(word);
-		reloop(data, "new_node : Allocation failure (ft_add_token)");
+		reloop(data, "new_node", strerror(ENOMEM));
 	}
 	ft_lstadd_back(data->final_lex, new_node);
 }

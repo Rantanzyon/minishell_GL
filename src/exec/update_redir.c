@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 15:16:01 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:51:09 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	l_redir(t_data *data, t_ast *c)
 		close(data->fd_in);
 	data->fd_in = open(c->str, O_RDONLY);
 	if (data->fd_in == -1)
-		data_destroy_exit(data, EXIT_FAILURE, c->str);
+		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 }
 
 void	ll_redir(t_data *data, t_ast *c)
@@ -35,7 +35,7 @@ void	r_redir(t_data *data, t_ast *c)
 	data->fd_out = open(c->str,
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fd_in == -1)
-		data_destroy_exit(data, EXIT_FAILURE, c->str);
+		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 }
 
 void	rr_redir(t_data *data, t_ast *c)
@@ -45,7 +45,7 @@ void	rr_redir(t_data *data, t_ast *c)
 	data->fd_out = open(c->str,
 			O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->fd_in == -1)
-		data_destroy_exit(data, EXIT_FAILURE, c->str);
+		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 }
 
 void	update_redir(t_data *data, t_ast *c)

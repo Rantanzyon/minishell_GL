@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 22:29:11 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 19:28:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:50:14 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ pid_t	child_left(t_data *data, t_ast *c, int fd[2], int in)
 	
 	pid = fork();
  	if (pid == -1)
-		data_destroy_exit(data, EXIT_FAILURE, "fork()");
+		data_destroy_exit(data, EXIT_FAILURE, "fork", strerror(errno));
 	else if (pid == 0)
 	{
 		close(fd[0]);
@@ -46,7 +46,7 @@ pid_t	child_right(t_data *data, t_ast *c, int fd[2], int out)
 	
 	pid = fork();
  	if (pid == -1)
-		data_destroy_exit(data, EXIT_FAILURE, "fork()");
+		data_destroy_exit(data, EXIT_FAILURE, "fork", strerror(errno));
 	else if (pid == 0)
 	{
 		close(fd[1]);
@@ -75,7 +75,7 @@ void	multi_expr(t_data *data, t_ast *c, int in, int out)
 	if (c->token == PIPE)
 	{
 		if (pipe(fd) == -1)
-			data_destroy_exit(data, EXIT_FAILURE, "pipe()");
+			data_destroy_exit(data, EXIT_FAILURE, "pipe", strerror(errno));
 		pid1 = child_left(data, c->left, fd, in);
 		pid2 = child_right(data, c->right, fd, out);
 		close_parent(fd, in, out);
@@ -86,9 +86,9 @@ void	multi_expr(t_data *data, t_ast *c, int in, int out)
 		if (WIFEXITED(status))
 			data->exit = WEXITSTATUS(status);
  		if (c != *(data->ast))
-			data_destroy_exit(data, data->exit, NULL);
+			data_destroy_exit(data, data->exit, NULL, NULL);
 		else
-			reloop(data, NULL);
+			reloop(data, NULL, NULL);
 	}
 	else
 		expression(data, c, in, out);

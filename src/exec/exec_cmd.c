@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 15:14:51 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:49:07 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**cmd_array(t_data *data, t_ast *c)
 
 	args = (char **)malloc((cmd_len(c) + 1) * sizeof(char *));
 	if (!args)
-		data_destroy_exit(data, EXIT_FAILURE, "args");
+		data_destroy_exit(data, EXIT_FAILURE, "args", strerror(ENOMEM));
 	temp = c;
 	i = 0;
 	while (temp)
@@ -43,7 +43,7 @@ char	**cmd_array(t_data *data, t_ast *c)
 		{
 			args[i] = ft_strdup(temp->str);
 			if (!args[i])
-				data_destroy_exit(data, EXIT_FAILURE, "args[i]");
+				data_destroy_exit(data, EXIT_FAILURE, "args[i]", strerror(ENOMEM));
 			i++;
 		}
 		temp = temp->right;
@@ -60,7 +60,7 @@ char	*getenv_minishell(t_data *data, char *var)
 
 	new = ft_strjoin(var, "=");
 	if (!new)
-		data_destroy_exit(data, EXIT_FAILURE, "new");
+		data_destroy_exit(data, EXIT_FAILURE, "new", strerror(ENOMEM));
 	c = (*data->env);
 	path = NULL;
 	while (c)
@@ -69,7 +69,7 @@ char	*getenv_minishell(t_data *data, char *var)
 		{
 			path = ft_substr(c->content, ft_strlen(new), ft_strlen(c->content));
 			if (!path)
-				data_destroy_exit(data, EXIT_FAILURE, "path");
+				data_destroy_exit(data, EXIT_FAILURE, "path", strerror(ENOMEM));
 		}
 		c = c->next;
 	}
@@ -85,7 +85,7 @@ char	**get_path(t_data *data, char **args)
 	bin = getenv_minishell(data, "PATH");
 	path = ft_split(bin, ':');
 	if (!path)
-		data_destroy_exit(data, EXIT_FAILURE, "path");
+		data_destroy_exit(data, EXIT_FAILURE, "path", strerror(ENOMEM));
 	i = 0;
 	while (path[i])
 	{

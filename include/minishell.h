@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/09 15:37:33 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:17:58 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,10 @@ void	prompt(t_data *data);
 t_data	*data_creation(char **argv, char **envp);
 void	data_init(t_data *data);
 void	ft_loop(t_data *data);
-void	reloop(t_data *data, char *err);
-void	data_destroy(t_data *data, char *err);
-void	data_destroy_exit(t_data *data, int status, char *err);
+void	reloop(t_data *data, char *name, char *err);
+void	data_destroy(t_data *data, char *name, char *err);
+void	data_destroy_exit(t_data *data, int status, char *name, char *err);
+void	err_message(t_data *data, char *name, char *err);
 
 void	lexer(t_data *data);
 void	lexer_quote(t_data *data);
@@ -123,6 +124,7 @@ void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data, char **path, char **args);
 
 void	check_builtin(t_data *data, t_ast *c);
+void	builtin_echo(t_data *data, t_ast *c);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
