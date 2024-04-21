@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/14 00:25:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:59:58 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	env_creation(t_data *data)
 	int		i;
 	t_list	*new;
 	char	*str;
-	
+
 	data->env = (t_list **)malloc(sizeof(t_list *));
 	if (!data->env)
 		reloop(data, "data->env", strerror(ENOMEM));
@@ -36,7 +36,6 @@ void	env_creation(t_data *data)
 	}
 }
 
-
 void	data_init(t_data *data)
 {
 	data->input = NULL;
@@ -45,7 +44,5 @@ void	data_init(t_data *data)
 	data->ast = NULL;
 	data->fd_in = STDIN_FILENO;
 	data->fd_out = STDOUT_FILENO;
-	//data->here_doc = -1;
 	env_creation(data);
-	//data->actual_pid = 74749;
 }

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:10 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/12 06:00:46 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:16:31 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	check_builtin(t_data *data, t_ast *c)
 {
-	t_ast *temp;
+	t_ast	*temp;
 
 	temp = c;
 	while (temp)
 	{
 		if (temp->token == WORD)
-			break;
+			break ;
 		temp = temp->right;
 	}
 	if (!temp)

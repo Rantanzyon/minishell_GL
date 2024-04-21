@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/17 17:55:49 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:09:41 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	print_lex(t_data *data)
 	cursor = *data->lex;
 	while (cursor)
 	{
-		if (((t_lex *)cursor->content)->pretok == REDIR)
-			pretok_str = "REDIR";
+		if (((t_lex *)cursor->content)->pretok == REDIR_LEFT)
+			pretok_str = "REDIR_LEFT";
+		else if (((t_lex *)cursor->content)->pretok == REDIR_RIGHT)
+			pretok_str = "REDIR_RIGHT";
 		else if (((t_lex *)cursor->content)->pretok == EXP)
 			pretok_str = "EXP";
 		else if (((t_lex *)cursor->content)->pretok == DQ)

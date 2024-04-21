@@ -6,77 +6,88 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:18:13 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/17 17:34:58 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:05:31 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_add_token(t_data *data, char *word, int token)
+void	is_redir_right(t_data *data, t_list **cursor)
 {
-	t_list	*new_node;
-	t_final	*new_struct;
+	char	*word;
 
+	if ((*cursor)->next && \
+		((t_lex *)(*cursor)->next->content)->pretok == REDIR_RIGHT)
+	{
+		word = ft_strdup(">>");
+		ft_add_token(data, word, RR_REDIR);
+		*cursor = (*cursor)->next;
+	}
+	else
+	{
+		word = ft_strdup(">");
+		ft_add_token(data, word, R_REDIR);
+	}
 	if (!word)
-		return ;
-	new_struct = (t_final *)malloc(sizeof(t_final));
-	if (!new_struct)
-	{
-		free(word);
-		reloop(data, "new_struct", strerror(ENOMEM));
-	}
-	new_struct->token = token;
-	new_struct->str = word;
-	new_node = ft_lstnew(new_struct);
-	if (!new_node)
-	{
-		free(word);
-		reloop(data, "new_node", strerror(ENOMEM));
-	}
-	ft_lstadd_back(data->final_lex, new_node);
+		reloop(data, "word", strerror(ENOMEM));
+	*cursor = (*cursor)->next;
 }
 
-void	remove_osef(t_data *data)
+void	is_redir_left(t_data *data, t_list **cursor)
 {
-	t_list	*cursor;
-	int		index;
+	char	*word;
 
-	cursor = *data->lex;
-	while (cursor)
+	if ((*cursor)->next && \
+		((t_lex *)(*cursor)->next->content)->pretok == REDIR_LEFT)
 	{
-		if (((t_lex *)cursor->content)->pretok == OSEF)
-		{
-			index = ft_lstindex(data->lex, cursor);
-			ft_lstdelnode(data->lex, index);
-			cursor = ft_lstat(data->lex, index);
-		}
-		else
-			cursor = cursor->next;
+		word = ft_strdup("<<");
+		ft_add_token(data, word, LL_REDIR);
+		*cursor = (*cursor)->next;
 	}
+	else
+	{
+		word = ft_strdup("<");
+		ft_add_token(data, word, L_REDIR);
+	}
+	if (!word)
+		reloop(data, "word", strerror(ENOMEM));
+	*cursor = (*cursor)->next;
 }
 
-void	remove_empty(t_data *data)
+void	is_word(t_data *data, t_list **cursor)
 {
-	t_list	*c;
-	t_list	*prev;
-	int		index;
+	char	*word;
+	char	*temp;
 
-	prev = NULL;
-	c = *data->lex;
-	while(c)
+	word = ft_strdup("");
+	if (!word)
+		reloop(data, "word", strerror(ENOMEM));
+	while (*cursor && ((t_lex *)(*cursor)->content)->pretok == CHAR)
 	{
-		if (((t_lex *)c->content)->pretok == EMPTY_STR && \
-			((prev && ((t_lex *)prev->content)->pretok == CHAR) || \
-			(c->next && ((t_lex *)c->next->content)->pretok == CHAR)))
+		temp = malloc(2);
+		if (!temp)
 		{
-			index = ft_lstindex(data->lex, c);
-			ft_lstdelnode(data->lex, index);
-			c = ft_lstat(data->lex, index);
+			free(word);
+			reloop(data, "temp", strerror(ENOMEM));
 		}
-		else
-		{
-			prev = c;	
-			c = c->next;
-		}
+		temp[0] = ((t_lex *)(*cursor)->content)->c;
+		temp[1] = '\0';
+		word = gnl_strjoin(word, temp);
+		free(temp);
+		if (!word)
+			reloop(data, "word", strerror(ENOMEM));
+		*cursor = (*cursor)->next;
 	}
+	ft_add_token(data, word, WORD);
+}
+
+void	is_empty(t_data *data, t_list **cursor)
+{
+	char	*word;
+
+	word = ft_strdup("");
+	if (!word)
+		reloop(data, "word", strerror(ENOMEM));
+	ft_add_token(data, word, WORD);
+	*cursor = (*cursor)->next;
 }

@@ -10,6 +10,7 @@ SRC = $(addprefix $(MDIR)/, \
 	prompt.c \
 	data_creation.c \
 	data_destroy.c \
+	data_destroy2.c \
 	data_init.c \
 	) \
 	$(addprefix $(LDIR)/, \
@@ -20,19 +21,23 @@ SRC = $(addprefix $(MDIR)/, \
 	lexer_quote_final.c \
 	lexer_final.c \
 	lexer_final_utils.c \
+	lexer_final_utils2.c \
 	) \
 	$(addprefix $(PDIR)/, \
 	parser.c \
 	syntax_check.c \
+	syntax_utils.c \
 	rename_tok.c \
-	ast2.c \
+	ast.c \
+	ast_rec.c \
 	ast_utils.c \
 	) \
 	$(addprefix $(EDIR)/, \
 	exec.c \
 	heredoc.c \
-	single_exp.c \
-	multi_exp.c \
+	exec_pipe.c \
+	exec_and_or.c \
+	exec_expr.c \
 	update_redir.c \
 	exec_cmd.c \
 	builtin.c \

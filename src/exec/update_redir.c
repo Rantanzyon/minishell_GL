@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/20 02:29:50 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:00:53 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void	update_redir(t_data *data, t_ast *c)
 			r_redir(data, c->left);
 		else if (c->token == RR_REDIR)
 			rr_redir(data, c->left);
-		//ft_putendl_fd("BITE", STDERR_FILENO);
 		c = c->right;
 	}
-	//ft_putendl_fd("BITE", STDERR_FILENO);
 }

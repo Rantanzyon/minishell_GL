@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 01:46:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:07:27 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ enum e_Token
 
 enum e_Pretok
 {
-	REDIR,
+	REDIR_LEFT,
+	REDIR_RIGHT,
 	EXP,
 	DQ,
 	SQ,
@@ -87,7 +88,6 @@ typedef struct s_data
 	int		fd_in;
 	int		fd_out;
 	int		exit;
-	
 }	t_data;
 
 void	prompt(t_data *data);
@@ -98,6 +98,9 @@ void	reloop(t_data *data, char *name, char *err);
 void	data_destroy(t_data *data, char *name, char *err);
 void	data_destroy_exit(t_data *data, int status, char *name, char *err);
 void	err_message(t_data *data, char *name, char *err);
+void	free_final_lex(t_list **a);
+void	free_env(t_list **a);
+void	free_ast(t_ast *c);
 
 void	lexer(t_data *data);
 void	lexer_quote(t_data *data);
@@ -107,29 +110,38 @@ void	ft_lstadd_str(t_data *data, char *name, int n);
 void	lexer_quote_final(t_data *data);
 void	lexer_final(t_data *data);
 void	ft_add_token(t_data *data, char *word, int token);
-void	remove_osef(t_data *data);
-void	remove_empty(t_data *data);
+void	is_redir_right(t_data *data, t_list **cursor);
+void	is_redir_left(t_data *data, t_list **cursor);
+void	is_word(t_data *data, t_list **cursor);
+void	is_empty(t_data *data, t_list **cursor);
+void	is_or(t_data *data, t_list **cursor);
+void	is_and(t_data *data, t_list **cursor);
+void	is_par_l(t_data *data, t_list **cursor);
+void	is_par_r(t_data *data, t_list **cursor);
 
 void	parser(t_data *data);
 void	syntax_check(t_data *data);
+void	syntax1(t_data *data, t_list *c);
+void	syntax2(t_data *data, t_list *c);
+void	syntax3(t_data *data, t_list *c);
+void	syntax4(t_data *data, t_list *c);
+void	syntax5(t_data *data, t_list *c);
+void	syntax_error(t_data *data, char *str);
 void	rename_tok(t_data *data);
+
 void	ast(t_data *data);
 void	rec(t_data *data, t_ast *c, int start, int end);
-int		ft_lstchr(t_list **lex, int start, int end, int token);
-int		ft_lstchr_andor(t_list **lex, int start, int end);
-int		ft_lstchr_par(t_list **lex, int start, int end);
-int		ft_findlast(t_list **lex, int start, int end, int token);
-int		ft_find_andor(t_list **lex, int start, int end);
-int	ft_findlast_andor(t_list **lex, int start, int end);
 t_ast	*fill_node(t_data *data, t_ast *c, int i);
-int	ft_first_parenthesis(t_list **lex, int start);
-int	find_last_par(t_list **lex, int start, int end);
+int		ft_findlast_pipe(t_list **lex, int start, int end);
+int		ft_findlast_andor(t_list **lex, int start, int end);
+int		ft_first_parenthesis(t_list **lex, int start);
 
-void	executer(t_data *data);
-void	exec(t_data *data, t_ast *c, int in, int out);
-void	single_expr(t_data *data, t_ast *c, int in, int out);
-void	multi_expr(t_data *data, t_ast *c, int in, int out);
+void	exec(t_data *data);
 void	heredoc(t_data *data, t_ast *c);
+void	executer(t_data *data, t_ast *c, int in, int out);
+void	exec_pipe(t_data *data, t_ast *c, int in, int out);
+void	exec_and_or(t_data *data, t_ast *c, int in, int out);
+void	exec_expr(t_data *data, t_ast *c, int in, int out);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data, char **path, char **args);
@@ -140,6 +152,5 @@ void	builtin_echo(t_data *data, t_ast *c);
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
 void	print_ast(t_ast *tree, int n);
-void	print_ast2(t_data *data);
 
 #endif

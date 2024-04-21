@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 01:52:31 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:05:40 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	err_message(t_data *data, char *name, char *err)
 {
 	char	*str;
-	
-	//str = ft_strdup("\033[31mminishell: ");
+
 	str = ft_strjoin(RED, "minishell: ");
 	if (name)
 	{
@@ -33,63 +32,6 @@ void	err_message(t_data *data, char *name, char *err)
 	}
 	ft_putstr_fd(str, STDERR_FILENO);
 	free(str);
-}
-
-void	close_fd(t_ast *c)
-{
-	if (c->hdfd != -1)
-	{
-		close(c->hdfd);
-		c->hdfd = -1;
-	}
-}
-
-void	free_ast(t_ast *c)
-{
-	if (c->left)
-		free_ast(c->left);
-	if (c->right)
-		free_ast(c->right);
-	close_fd(c);
-	//free(c->str);
-	free(c);
-}
-
-void	free_env(t_list **a)
-{
-	t_list	*temp;
-	t_list	*cursor;
-
-	if (!a)
-		return ;
-	cursor = *a;
-	while (cursor)
-	{
-		temp = cursor->next;
-		free(cursor->content);
-		free(cursor);
-		cursor = temp;
-	}
-	free(a);
-}
-
-void	free_final_lex(t_list **a)
-{
-	t_list	*temp;
-	t_list	*cursor;
-
-	if (!a)
-		return ;
-	cursor = *a;
-	while (cursor)
-	{
-		temp = cursor->next;
-		free(((t_final *)cursor->content)->str);
-		free(((t_final *)cursor->content));
-		free(cursor);
-		cursor = temp;
-	}
-	free(a);
 }
 
 void	data_destroy(t_data *data, char *name, char *err)

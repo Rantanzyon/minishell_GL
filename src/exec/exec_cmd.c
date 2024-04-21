@@ -6,16 +6,16 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/20 02:32:07 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:19:38 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		cmd_len(t_ast *c)
+static int	cmd_len(t_ast *c)
 {
 	int	i;
-	
+
 	i = 0;
 	while (c)
 	{
@@ -26,7 +26,7 @@ int		cmd_len(t_ast *c)
 	return (i);
 }
 
-char	**cmd_array(t_data *data, t_ast *c)
+static char	**cmd_array(t_data *data, t_ast *c)
 {
 	t_ast	*temp;
 	int		i;
@@ -43,7 +43,8 @@ char	**cmd_array(t_data *data, t_ast *c)
 		{
 			args[i] = ft_strdup(temp->str);
 			if (!args[i])
-				data_destroy_exit(data, EXIT_FAILURE, "args[i]", strerror(ENOMEM));
+				data_destroy_exit(\
+				data, EXIT_FAILURE, "args[i]", strerror(ENOMEM));
 			i++;
 		}
 		temp = temp->right;
@@ -52,7 +53,7 @@ char	**cmd_array(t_data *data, t_ast *c)
 	return (args);
 }
 
-char	*getenv_minishell(t_data *data, char *var)
+static char	*getenv_minishell(t_data *data, char *var)
 {
 	t_list	*c;
 	char	*new;
@@ -76,7 +77,7 @@ char	*getenv_minishell(t_data *data, char *var)
 	return (path);
 }
 
-char	**get_path(t_data *data, char **args)
+static char	**get_path(t_data *data, char **args)
 {
 	char	*bin;
 	char	**path;

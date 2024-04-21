@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:46 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 03:03:22 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:47:22 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void	ft_loop(t_data *data)
 		data_init(data);
 		prompt(data);
 		lexer(data);
-		//print_lst(data->final_lex);
 		parser(data);
 		print_ast(*data->ast, 0);
-		executer(data);
+		exec(data);
 		wait(NULL);
 		data_destroy(data, NULL, NULL);
 	}
@@ -31,6 +30,7 @@ void	ft_loop(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
+
 	if (argc != 1)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 1);
 	data = data_creation(argv, envp);

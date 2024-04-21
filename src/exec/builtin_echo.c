@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 21:10:46 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/14 00:51:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:19:59 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_option(char *str)
 {
 	int	i;
-	
+
 	if (str[0] != '-' || !ft_strcmp(str, "-"))
 		return (0);
 	else
