@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/14 00:51:09 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/20 02:29:50 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,18 @@ void	rr_redir(t_data *data, t_ast *c)
 
 void	update_redir(t_data *data, t_ast *c)
 {
-	int	token;
-
-	token = c->token;
-	while (token != PIPE && token != WORD && token != FILENAME)
+	while (c)
 	{
-		if (token == L_REDIR)
+		if (c->token == L_REDIR)
 			l_redir(data, c->left);
-		else if (token == LL_REDIR)
+		else if (c->token == LL_REDIR)
 			ll_redir(data, c);
-		else if (token == R_REDIR)
+		else if (c->token == R_REDIR)
 			r_redir(data, c->left);
-		else
+		else if (c->token == RR_REDIR)
 			rr_redir(data, c->left);
+		//ft_putendl_fd("BITE", STDERR_FILENO);
 		c = c->right;
-		token = c->token;
 	}
+	//ft_putendl_fd("BITE", STDERR_FILENO);
 }

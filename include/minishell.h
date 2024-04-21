@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/14 00:17:58 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 01:46:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/include/libft.h"
 # include "minishell_errors.h"
+# include "colors.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -33,19 +34,23 @@ enum e_Token
 	L_REDIR,
 	R_REDIR,
 	RR_REDIR,
-	LL_REDIR
+	LL_REDIR,
 };
 
 enum e_Pretok
 {
-	SYM,
+	REDIR,
 	EXP,
 	DQ,
 	SQ,
 	CHAR,
 	OSEF,
 	ESPACE,
-	EMPTY_STR
+	EMPTY_STR,
+	AND,
+	OR,
+	PAR_L,
+	PAR_R
 };
 
 typedef struct s_lex
@@ -111,12 +116,18 @@ void	rename_tok(t_data *data);
 void	ast(t_data *data);
 void	rec(t_data *data, t_ast *c, int start, int end);
 int		ft_lstchr(t_list **lex, int start, int end, int token);
+int		ft_lstchr_andor(t_list **lex, int start, int end);
+int		ft_lstchr_par(t_list **lex, int start, int end);
 int		ft_findlast(t_list **lex, int start, int end, int token);
+int		ft_find_andor(t_list **lex, int start, int end);
+int	ft_findlast_andor(t_list **lex, int start, int end);
 t_ast	*fill_node(t_data *data, t_ast *c, int i);
+int	ft_first_parenthesis(t_list **lex, int start);
+int	find_last_par(t_list **lex, int start, int end);
 
 void	executer(t_data *data);
 void	exec(t_data *data, t_ast *c, int in, int out);
-void	single_expr(t_data *data, t_ast *c);
+void	single_expr(t_data *data, t_ast *c, int in, int out);
 void	multi_expr(t_data *data, t_ast *c, int in, int out);
 void	heredoc(t_data *data, t_ast *c);
 void	update_redir(t_data *data, t_ast *c);

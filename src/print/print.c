@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/07 00:01:24 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:55:49 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	print_lex(t_data *data)
 	cursor = *data->lex;
 	while (cursor)
 	{
-		if (((t_lex *)cursor->content)->pretok == SYM)
-			pretok_str = "SYM";
+		if (((t_lex *)cursor->content)->pretok == REDIR)
+			pretok_str = "REDIR";
 		else if (((t_lex *)cursor->content)->pretok == EXP)
 			pretok_str = "EXP";
 		else if (((t_lex *)cursor->content)->pretok == DQ)
@@ -34,6 +34,14 @@ void	print_lex(t_data *data)
 			pretok_str = "OSEF";
 		else if (((t_lex *)cursor->content)->pretok == EMPTY_STR)
 			pretok_str = "EMPTY_STR";
+		else if (((t_lex *)cursor->content)->pretok == AND)
+			pretok_str = "AND";
+		else if (((t_lex *)cursor->content)->pretok == OR)
+			pretok_str = "OR";
+		else if (((t_lex *)cursor->content)->pretok == PAR_L)
+			pretok_str = "PAR_L";
+		else if (((t_lex *)cursor->content)->pretok == PAR_R)
+			pretok_str = "PAR_R";
 		else
 			pretok_str = "ESPACE";
 		printf("%c: %s\n", ((t_lex *)cursor->content)->c, pretok_str);
@@ -62,34 +70,28 @@ void	print_ast(t_ast *tree, int n)
 	int i;
 
 	i = n;
-	//printf("PRINT AST\n");
 	if (tree->right)
-	{
-		//printf("%d\n", n);
 		print_ast(tree->right, n + 1);
-	}
-	//printf("AST2\n");
 	while (i-- > 0)
 		printf("\t");
 	if (tree)
 	{
 		if (tree->token == PIPE)
 			printf("\033[30;42m");
-		else if (tree->token == LL_REDIR)
-			printf("\033[30;46m");
-		else if (tree->token == R_REDIR || tree->token == RR_REDIR || tree->token == L_REDIR)
+		else if (tree->token == R_REDIR || tree->token == RR_REDIR || tree->token == L_REDIR || tree->token == LL_REDIR)
 			printf("\033[30;45m");
 		else if (tree->token == WORD)
 			printf("\033[30;47m");
 		else if (tree->token == FILENAME)
 			printf("\033[30;43m");
+		else if (tree->token == AND || tree->token == OR)
+			printf("\033[30;41m");
+		else if (tree->token == PAR_L || tree->token == PAR_R)
+			printf("\033[30;44m");
 		printf("[%d] %s ", n, tree->str);
 		printf("\033[0m");
 		printf("\n");
 	}
 	if (tree->left)
-	{
-		//printf("%d\n", n);	
 		print_ast(tree->left, n + 1);
-	}
 }

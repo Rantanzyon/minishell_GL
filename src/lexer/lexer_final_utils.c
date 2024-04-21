@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:18:13 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/14 00:30:19 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:34:58 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_add_token(t_data *data, char *word, int token)
 	t_list	*new_node;
 	t_final	*new_struct;
 
+	if (!word)
+		return ;
 	new_struct = (t_final *)malloc(sizeof(t_final));
 	if (!new_struct)
 	{

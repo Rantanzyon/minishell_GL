@@ -23,9 +23,9 @@ SRC = $(addprefix $(MDIR)/, \
 	) \
 	$(addprefix $(PDIR)/, \
 	parser.c \
-	syntax_error.c \
+	syntax_check.c \
 	rename_tok.c \
-	ast.c \
+	ast2.c \
 	ast_utils.c \
 	) \
 	$(addprefix $(EDIR)/, \

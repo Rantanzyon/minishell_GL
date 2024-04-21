@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/14 01:20:10 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 01:52:31 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ void	err_message(t_data *data, char *name, char *err)
 {
 	char	*str;
 	
-	str = ft_strdup("\033[31mminishell: ");
+	//str = ft_strdup("\033[31mminishell: ");
+	str = ft_strjoin(RED, "minishell: ");
 	if (name)
 	{
 		str = gnl_strjoin(str, name);
 		str = gnl_strjoin(str, ": ");
 	}
-	if (err)
-	{
-		str = gnl_strjoin(str, err);
-		str = gnl_strjoin(str, "\033[0m\n");
-	}
+	str = gnl_strjoin(str, err);
+	str = gnl_strjoin(str, DEF);
+	str = gnl_strjoin(str, "\n");
 	if (!str)
 	{
 		ft_putstr_fd(strerror(ENOMEM), STDERR_FILENO);
@@ -52,7 +51,7 @@ void	free_ast(t_ast *c)
 	if (c->right)
 		free_ast(c->right);
 	close_fd(c);
-	free(c->str);
+	//free(c->str);
 	free(c);
 }
 

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/14 00:27:11 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:48:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	ft_check_char(char c)
 {
-	if (c == '<' || c == '>' || c == '|')
-		return (SYM);
+	if (c == '<' || c == '>')
+		return (REDIR);
 	else if (c == '$')
 		return (EXP);
 	else if (c == '"')
@@ -24,6 +24,14 @@ static int	ft_check_char(char c)
 		return (SQ);
 	else if (c == ' ')
 		return (ESPACE);
+	else if (c == '&')
+		return (AND);
+	else if (c == '|')
+		return (OR);
+	else if (c == '(')
+		return (PAR_L);
+	else if (c == ')')
+		return (PAR_R);
 	else
 		return (CHAR);
 }
@@ -83,6 +91,7 @@ void	lexer(t_data *data)
 	lexer_quote(data);
 	lexer_expand(data);
 	lexer_quote_final(data);
+	//print_lex(data);
 	lexer_final(data);
 	//print_lst(data->final_lex);
 }
