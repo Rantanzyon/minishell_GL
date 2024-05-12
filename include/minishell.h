@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 21:07:27 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:00:57 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/wait.h>
+
+/* int execve_success;
+void sig_handler(int signum); */
 
 enum e_Token
 {
@@ -54,6 +57,13 @@ enum e_Pretok
 	PAR_R
 };
 
+enum e_Builtin
+{
+	FIRST_ROW,
+	BUILTIN_EXIT,
+	BUILTIN_CD
+};
+
 typedef struct s_lex
 {
 	int				pretok;
@@ -71,6 +81,7 @@ typedef struct s_ast
 	char			*str;
 	int				token;
 	int				hdfd;
+	int				exit_pipe;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -147,7 +158,9 @@ void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data, char **path, char **args);
 
 void	check_builtin(t_data *data, t_ast *c);
+void	special_builtin(t_data *data, t_ast *c, int in, int out);
 void	builtin_echo(t_data *data, t_ast *c);
+void	builtin_exit(t_data *data, t_ast *c);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);

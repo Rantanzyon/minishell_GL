@@ -29,19 +29,20 @@ SRC = $(addprefix $(MDIR)/, \
 	syntax_utils.c \
 	rename_tok.c \
 	ast.c \
-	ast_rec.c \
-	ast_utils.c \
+	ast_rec2.c \
+	ast_utils2.c \
 	) \
 	$(addprefix $(EDIR)/, \
 	exec.c \
 	heredoc.c \
 	exec_pipe.c \
-	exec_and_or.c \
+	exec_and_or2.c \
 	exec_expr.c \
 	update_redir.c \
 	exec_cmd.c \
 	builtin.c \
 	builtin_echo.c \
+	builtin_exit.c \
 	) \
 	src/print/print.c \
 #	ast.c \

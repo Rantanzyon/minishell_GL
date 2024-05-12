@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*   ast_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:07:29 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/22 18:49:20 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:49:27 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_findlast_andor(t_list **lex, int start, int end)
 		if (token == PAR_R)
 			count--;
 		if (count == 0 && (token == AND || token == OR))
-			n = start + i;
+			return (start + i);
 		i++;
 		c = c->next;
 	}
@@ -81,6 +81,7 @@ t_ast	*fill_node(t_data *data, t_ast *c, int i)
 	c->token = ((t_final *)ft_lstat(data->final_lex, i)->content)->token;
 	c->str = ((t_final *)ft_lstat(data->final_lex, i)->content)->str;
 	c->hdfd = -1;
+	c->exit_pipe = -1;
 	c->right = NULL;
 	c->left = NULL;
 	return (c);

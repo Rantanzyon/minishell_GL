@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:16:53 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/22 00:32:28 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	exec_expr(t_data *data, t_ast *c, int in, int out)
 {
 	pid_t	pid;
 	int		status;
-
+	
 	if (c == *data->ast)
 	{
+		// si exit se trouve au niveau 1, on ne fork pas et data_destroy_exit
 		pid = fork();
 		if (pid == -1)
 			reloop(data, "fork", strerror(errno));

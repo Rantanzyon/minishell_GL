@@ -6,20 +6,22 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 19:05:40 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/29 22:05:19 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	err_message(t_data *data, char *name, char *err)
+void	err_message(t_data *data, char *arg1, char *err)
 {
 	char	*str;
 
 	str = ft_strjoin(RED, "minishell: ");
-	if (name)
+	if (arg1)
 	{
-		str = gnl_strjoin(str, name);
+		if (!ft_strcmp(err, NUMREQ))
+			str = gnl_strjoin(str, "exit: ");
+		str = gnl_strjoin(str, arg1);
 		str = gnl_strjoin(str, ": ");
 	}
 	str = gnl_strjoin(str, err);

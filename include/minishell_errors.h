@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 09:35:56 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 00:37:01 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:02:40 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@
 # define SYNTX_ERR_PARR "syntax error near unexpected token `)'"
 
 # define CMDNF "command not found"
+# define NUMREQ "numeric argument required"
+# define TOOMANYARG "too many arguments"
 
 #endif

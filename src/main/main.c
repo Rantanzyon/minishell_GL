@@ -6,12 +6,20 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:46 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 18:47:22 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/27 14:02:19 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* void sig_handler(int signum)
+{
+    if (signum == SIGUSR1) {
+        execve_success = 1;
+    }
+} */
+
+    
 void	ft_loop(t_data *data)
 {
 	while (1)
@@ -20,7 +28,7 @@ void	ft_loop(t_data *data)
 		prompt(data);
 		lexer(data);
 		parser(data);
-		print_ast(*data->ast, 0);
+		//print_ast(*data->ast, 0);
 		exec(data);
 		wait(NULL);
 		data_destroy(data, NULL, NULL);
@@ -37,3 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_loop(data);
 	return (0);
 }
+
+/*
+((((MERDE || ls)| >out1 cat >out2) && echo bonjour || echo bonsoir) | <<LIM grep a) && ((waxz || sleep 2) | ls -l) && wc <Makefile -l
+*/

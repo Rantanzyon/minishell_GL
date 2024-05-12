@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:10 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:16:31 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:48:34 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	check_builtin(t_data *data, t_ast *c)
 		return ;
 	if (!ft_strcmp(temp->str, "echo"))
 		builtin_echo(data, temp);
+	else if (!ft_strcmp(temp->str, "exit"))
+		builtin_exit(data, temp);
 /* 	else if (!ft_strcmp(temp->str, "cd"))
 		builtin_cd(data, temp);
 	else if (!ft_strcmp(temp->str, "pwd"))
