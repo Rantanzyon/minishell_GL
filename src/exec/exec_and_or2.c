@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:17:31 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/29 22:14:43 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:04:20 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	exec_and_or(t_data *data, t_ast *c, int in, int out)
 		if (c)
 			executer(data, c->right, in, out);
 		else
-			ft_putendl_fd("wtf", STDERR_FILENO);
-			//reloop(data, "reloop", NULL);
+			//ft_putendl_fd("wtf", STDERR_FILENO);
+			reloop(data, "reloop", NULL);
 	}
 /* 	if (c != *(data->ast))
 		data_destroy_exit(data, data->exit, "destroy", NULL);
