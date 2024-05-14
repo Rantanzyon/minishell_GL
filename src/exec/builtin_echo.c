@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 21:10:46 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:19:59 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:16:09 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ void	builtin_echo(t_data *data, t_ast *c)
 			data_destroy_exit(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	}
 	ft_putstr_fd(str, data->fd_out);
+	close(data->fd_out);
+	free(str);
 	data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
 }
