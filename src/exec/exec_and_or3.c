@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_and_or2.c                                     :+:      :+:    :+:   */
+/*   exec_and_or3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:17:31 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 11:52:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/19 22:36:21 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,43 +47,36 @@ void	special_builtin(t_data *data, t_ast *c, int in, int out)
 	
 }
 
-void	exec_and_or(t_data *data, t_ast *c, int in, int out)
+void	exec_and(t_data *data, t_ast *c, int in, int out)
 {
-	if (c->exit_pipe == FIRST_ROW && c->left->exit_pipe > 0)
-		special_builtin(data, c->left, STDIN_FILENO, STDOUT_FILENO);
-	else
-		child_and_or(data, c->left, in, out);
-
-
-	//ft_putstr_fd("parent andor check\n", STDERR_FILENO); 
-
-	if ((data->exit == 0 && c->token == AND) || \
-		(data->exit != 0 && c->token == OR))
-	{
-		//ft_putendl_fd("andor go right", STDERR_FILENO);
-		child_and_or(data, c->right, in, out);
-		//executer(data, c->right, in, out);
-	}
+	//ft_putstr_fd("AND start\n", STDERR_FILENO);
+	executer(data, c->left, in, out);
+	//ft_putendl_fd(ft_itoa(data->exit), STDERR_FILENO);
+	if (data->exit == 0)
+		executer(data, c->right, in, out);
 	else
 	{
-		if (c->token == OR)
-		{
-			while (c && c->token != AND)
-				c = c->right;
-		}
-		else if (c->token == AND)
-		{
-			while (c && c->token != OR)
-				c = c->right;
-		}
-		if (c)
+		while (c && c->token == AND)
+			c = c->right;
+		if (c && c->token == OR)
 			executer(data, c->right, in, out);
-		else
-			ft_putendl_fd("wtf", STDERR_FILENO);
-			//reloop(data, "reloop", NULL);
 	}
-/* 	if (c != *(data->ast))
-		data_destroy_exit(data, data->exit, "destroy", NULL);
+	//ft_putstr_fd("END EXEC AND\n", STDERR_FILENO);
+}
+
+void	exec_or(t_data *data, t_ast *c, int in, int out)
+{
+	//ft_putstr_fd("OR start\n", STDERR_FILENO);
+	executer(data, c->left, in, out);
+	//ft_putendl_fd(ft_itoa(data->exit), STDERR_FILENO);
+	if (data->exit != 0)
+		executer(data, c->right, in, out);
 	else
-		reloop(data, "reloop", NULL); */
+	{
+		while (c && c->token == OR)
+			c = c->right;
+		if (c && c->token == AND)
+			executer(data, c->right, in, out);
+	}
+	//ft_putstr_fd("END EXEC OR\n", STDERR_FILENO);
 }

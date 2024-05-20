@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/26 23:00:57 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/19 22:22:11 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_ast
 	char			*str;
 	int				token;
 	int				hdfd;
+	int				pipe_lvl;
 	int				exit_pipe;
 	struct s_ast	*left;
 	struct s_ast	*right;
@@ -151,12 +152,14 @@ void	exec(t_data *data);
 void	heredoc(t_data *data, t_ast *c);
 void	executer(t_data *data, t_ast *c, int in, int out);
 void	exec_pipe(t_data *data, t_ast *c, int in, int out);
-void	exec_and_or(t_data *data, t_ast *c, int in, int out);
+void	exec_and(t_data *data, t_ast *c, int in, int out);
+void	exec_or(t_data *data, t_ast *c, int in, int out);
 void	exec_expr(t_data *data, t_ast *c, int in, int out);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data, char **path, char **args);
 
+int		is_builtin(t_ast *c);
 void	check_builtin(t_data *data, t_ast *c);
 void	special_builtin(t_data *data, t_ast *c, int in, int out);
 void	builtin_echo(t_data *data, t_ast *c);

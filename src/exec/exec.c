@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/29 22:18:10 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/19 22:22:52 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ void	do_execve(t_data *data, char **path, char **args)
 void	executer(t_data *data, t_ast *c, int in, int out)
 {
 	//ft_putendl_fd("executer", STDERR_FILENO);
-	if (c->token == AND || c->token == OR)
-		exec_and_or(data, c, in, out);
+	if (c->token == AND)
+		exec_and(data, c, in, out);
+	else if (c->token == OR)
+		exec_or(data, c, in, out);
 	else if (c->token == PIPE)
 		exec_pipe(data, c, in, out);
 	else if (c->exit_pipe > 0)
