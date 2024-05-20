@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:15:16 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 00:20:15 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:04:38 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ void	exec_pipe(t_data *data, t_ast *c, int in, int out)
 	waitpid(pid2, &status, 0);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
- 	if (c != *(data->ast))
+	ft_putstr_fd("END PIPE\n", STDERR_FILENO);
+	dprintf(STDERR_FILENO, "%s\n", c->str);
+/*  	if (c != *(data->ast))
 		data_destroy_exit(data, data->exit, NULL, NULL);
 	else
-		reloop(data, NULL, NULL);
+		reloop(data, NULL, NULL); */
 }
