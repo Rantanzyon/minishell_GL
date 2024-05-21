@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/19 22:22:11 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:54:54 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_ast
 	char			*str;
 	int				token;
 	int				hdfd;
-	int				pipe_lvl;
 	int				exit_pipe;
 	struct s_ast	*left;
 	struct s_ast	*right;
@@ -99,6 +98,7 @@ typedef struct s_data
 	int		actual_pid;
 	int		fd_in;
 	int		fd_out;
+	int		pipe_lvl;
 	int		exit;
 }	t_data;
 

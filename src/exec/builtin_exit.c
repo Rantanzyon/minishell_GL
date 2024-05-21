@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 21:48:45 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/29 22:20:08 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 23:21:22 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	builtin_exit(t_data *data, t_ast *c)
 		data->exit = EXIT_FAILURE;
 		reloop(data, "exit", TOOMANYARG);
 	}
-	data_destroy_exit(data, n, NULL, NULL);
+	else
+		data_destroy_exit(data, n, NULL, NULL);
 }
 

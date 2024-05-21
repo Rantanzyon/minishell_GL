@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:17:31 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/19 22:36:21 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 23:05:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	exec_and(t_data *data, t_ast *c, int in, int out)
 	//ft_putstr_fd("AND start\n", STDERR_FILENO);
 	executer(data, c->left, in, out);
 	//ft_putendl_fd(ft_itoa(data->exit), STDERR_FILENO);
+	
 	if (data->exit == 0)
 		executer(data, c->right, in, out);
 	else

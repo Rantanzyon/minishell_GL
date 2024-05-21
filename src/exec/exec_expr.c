@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 13:08:32 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:57:03 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	exec_expr(t_data *data, t_ast *c, int in, int out)
 	//{
 		// si exit se trouve au niveau 1, on ne fork pas et data_destroy_exit
 		//check_builtin(data, c);
-	ft_putstr_fd("expr START\n", STDERR_FILENO);
 	pid = fork();
 	if (pid == -1)
 		reloop(data, "fork", strerror(errno));
@@ -43,7 +42,8 @@ void	exec_expr(t_data *data, t_ast *c, int in, int out)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
-	if (c->pipe_lvl > 0)
+	//dprintf(2, "%d\n", data->pipe_lvl);
+	if (data->pipe_lvl > 0)
 		data_destroy_exit(data, 0, NULL, NULL);
 		//reloop(data, NULL, NULL);
 	//}

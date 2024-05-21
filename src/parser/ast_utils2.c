@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:07:29 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/19 19:29:45 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:55:17 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_ast	*fill_node(t_data *data, t_ast *c, int i)
 	c->str = ((t_final *)ft_lstat(data->final_lex, i)->content)->str;
 	c->hdfd = -1;
 	c->exit_pipe = -1;
-	c->pipe_lvl = 0;
 	c->right = NULL;
 	c->left = NULL;
 	return (c);
