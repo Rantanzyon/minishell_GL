@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/14 20:00:43 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:07:38 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,20 @@ static char	**get_path(t_data *data, char **args)
 	return (path);
 }
 
-void	exec_cmd(t_data *data, t_ast *c)
+void	do_execve(t_data *data, char **path, char **args)
+{
+	int		res;
+	int		i;
+
+	i = 0;
+	res = 0;
+	while (path[i])
+		res = execve(path[i++], args, NULL);
+	if (res == -1)
+		data_destroy_exit(data, CMD_NF, args[0], CMDNF);
+}
+
+void	exec_cmd(t_data *data, t_ast *c, int in, int out)
 {
 	char	**args;
 	char	**path;
@@ -106,10 +119,10 @@ void	exec_cmd(t_data *data, t_ast *c)
 	// si pas d'argument (only redir) => alors on close tout
 	if (args[0] == 0)
 	{
-		if (data->fd_in != STDIN_FILENO)
-			close(data->fd_in);
-		if (data->fd_out != STDOUT_FILENO)
-			close(data->fd_out);
+		if (in != STDIN_FILENO)
+			close(in);
+		if (out != STDOUT_FILENO)
+			close(out);
 		free(args[0]);
 		free(args);
 		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);

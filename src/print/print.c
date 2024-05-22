@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:41 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 23:53:23 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:54:52 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	print_ast(t_ast *tree, int n)
 			printf("\033[30;41m");
 		else if (tree->token == PAR_L || tree->token == PAR_R)
 			printf("\033[30;44m");
-		printf("[%d] %s ", tree->exit_pipe, tree->str);
+		printf("[%d] %s ", tree->prev_node, tree->str);
 		printf("\033[0m");
 		printf("\n");
 	}

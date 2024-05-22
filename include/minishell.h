@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 22:54:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:43:02 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ enum e_Pretok
 	AND,
 	OR,
 	PAR_L,
-	PAR_R
+	PAR_R,
+	START
 };
 
 enum e_Builtin
@@ -81,7 +82,7 @@ typedef struct s_ast
 	char			*str;
 	int				token;
 	int				hdfd;
-	int				exit_pipe;
+	int				prev_node;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
@@ -96,9 +97,6 @@ typedef struct s_data
 	t_list	**final_lex;
 	t_ast	**ast;
 	int		actual_pid;
-	int		fd_in;
-	int		fd_out;
-	int		pipe_lvl;
 	int		exit;
 }	t_data;
 
@@ -155,15 +153,15 @@ void	exec_pipe(t_data *data, t_ast *c, int in, int out);
 void	exec_and(t_data *data, t_ast *c, int in, int out);
 void	exec_or(t_data *data, t_ast *c, int in, int out);
 void	exec_expr(t_data *data, t_ast *c, int in, int out);
-void	update_redir(t_data *data, t_ast *c);
-void	exec_cmd(t_data *data, t_ast *c);
+void	update_redir(t_data *data, t_ast *c, int in, int out);
+void	exec_cmd(t_data *data, t_ast *c, int in, int out);
 void	do_execve(t_data *data, char **path, char **args);
 
 int		is_builtin(t_ast *c);
-void	check_builtin(t_data *data, t_ast *c);
+void	check_builtin(t_data *data, t_ast *c, int in, int out);
 void	special_builtin(t_data *data, t_ast *c, int in, int out);
-void	builtin_echo(t_data *data, t_ast *c);
-void	builtin_exit(t_data *data, t_ast *c);
+void	builtin_echo(t_data *data, t_ast *c, int out);
+void	builtin_exit(t_data *data, t_ast *c, int in, int out);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);

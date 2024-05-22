@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 21:10:46 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 12:24:06 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:31:42 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ char	*get_str(t_data *data, t_ast *c)
 	return (str);
 }
 
-void	builtin_echo(t_data *data, t_ast *c)
+void	builtin_echo(t_data *data, t_ast *c, int out)
 {
 	int		active;
 	char	*str;
 
+	dprintf(2, "BUILTIN ECHO\n");
 	active = 0;
 	c = c->right;
 	while (c && check_option(c->str))
@@ -69,8 +70,8 @@ void	builtin_echo(t_data *data, t_ast *c)
 		if (!str)
 			data_destroy_exit(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	}
-	ft_putstr_fd(str, data->fd_out);
-	close(data->fd_out);
+	ft_putstr_fd(str, out);
+	close(out);
 	free(str);
 	data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
 }

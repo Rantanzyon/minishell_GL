@@ -36,12 +36,10 @@ SRC = $(addprefix $(MDIR)/, \
 	exec.c \
 	heredoc.c \
 	exec_pipe.c \
-	exec_and_or3.c \
 	exec_expr.c \
 	update_redir.c \
 	exec_cmd.c \
 	builtin.c \
-	builtin_echo.c \
 	builtin_exit.c \
 	) \
 	src/print/print.c \

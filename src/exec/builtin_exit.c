@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 21:48:45 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 23:21:22 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:47:45 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,12 @@ int	analyse_arg_exit(t_data *data, char *str)
 	return (n);
 }
 
-void	builtin_exit(t_data *data, t_ast *c)
+void	builtin_exit(t_data *data, t_ast *c, int in, int out)
 {
 	int	n;
-	
-	ft_putendl_fd("exit", STDERR_FILENO);
+	(void)in;
+	if (out == STDOUT_FILENO)
+		ft_putendl_fd("exit", STDOUT_FILENO);
 	while (c->token != WORD)
 		c = c->right;
 	c = c->right;

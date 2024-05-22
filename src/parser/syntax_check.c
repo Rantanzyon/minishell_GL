@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:03:48 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:23:05 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 01:02:01 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ void	syntax_error(t_data *data, char *str)
 	free(str);
 	free(str2);
 	if (!str3)
+	{
+		data->exit = EXIT_FAILURE;	
 		reloop(data, "str3", strerror(ENOMEM));
+	}
 	err_message(data, NULL, str3);
 	free(str3);
+	data->exit = 2;	
 	reloop(data, NULL, NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:10 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 11:53:13 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 00:48:21 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		is_builtin(t_ast *c)
 	return (0);
 }
 
-void	check_builtin(t_data *data, t_ast *c)
+void	check_builtin(t_data *data, t_ast *c, int in, int out)
 {
 	t_ast	*temp;
 
@@ -45,12 +45,12 @@ void	check_builtin(t_data *data, t_ast *c)
 	}
 	if (!temp)
 		return ;
-	if (!ft_strcmp(temp->str, "echo"))
-		builtin_echo(data, temp);
-	else if (!ft_strcmp(temp->str, "exit"))
-		builtin_exit(data, temp);
+	if (!ft_strcmp(temp->str, "exit"))
+		builtin_exit(data, temp, in, out);
 /* 	else if (!ft_strcmp(temp->str, "cd"))
 		builtin_cd(data, temp);
+ 	if (!ft_strcmp(temp->str, "echo"))
+		builtin_echo(data, temp, out);
 	else if (!ft_strcmp(temp->str, "pwd"))
 		builtin_pwd(data, temp);
 	else if (!ft_strcmp(temp->str, "export"))
