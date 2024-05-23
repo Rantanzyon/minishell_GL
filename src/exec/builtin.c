@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:10 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 04:27:08 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:21:23 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		is_builtin(t_ast *c)
 	return (0);
 }
 
-void	check_builtin(t_data *data, t_ast *c)
+void	builtin(t_data *data, t_ast *c)
 {
 	t_ast	*temp;
 

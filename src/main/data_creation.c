@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:45 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/14 00:24:05 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 07:34:03 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ t_data	*data_creation(char **argv, char **envp)
 		data_destroy_exit(data, EXIT_FAILURE, "data", strerror(ENOMEM));
 	data->argv = argv;
 	data->envp = envp;
+	data->exit = 0;
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 04:33:58 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 10:08:18 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	update_redir(t_data *data, t_ast *c)
 		if (c->token == L_REDIR)
 			l_redir(data, c->left);
 		else if (c->token == LL_REDIR)
-			ll_redir(data, c->left);
+			ll_redir(data, c);
 		else if (c->token == R_REDIR)
 			r_redir(data, c->left);
 		else if (c->token == RR_REDIR)
@@ -62,4 +62,5 @@ void	update_redir(t_data *data, t_ast *c)
 	}
 	dup2(data->in, STDIN_FILENO);
 	dup2(data->out, STDOUT_FILENO);
+	// dprintf(2, "redir end | in: %d | out: %d\n", data->in, data->out);
 }

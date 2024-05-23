@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 04:33:33 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:04:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_data
 	t_list	**final_lex;
 	t_ast	**ast;
 	int		actual_pid;
+	char	**args;
+	char	**path;
 	int		exit;
 	int		in;
 	int		out;
@@ -114,6 +116,7 @@ void	err_message(t_data *data, char *name, char *err);
 void	free_final_lex(t_list **a);
 void	free_env(t_list **a);
 void	free_ast(t_ast *c);
+void	ft_free_array(char **arr);
 
 void	lexer(t_data *data);
 void	lexer_quote(t_data *data);
@@ -152,16 +155,16 @@ int		ft_first_parenthesis(t_list **lex, int start);
 void	exec(t_data *data);
 void	heredoc(t_data *data, t_ast *c);
 void	executer(t_data *data, t_ast *c, int in, int out);
-void	exec_pipe(t_data *data, t_ast *c, int in, int out);
-void	exec_and(t_data *data, t_ast *c, int in, int out);
-void	exec_or(t_data *data, t_ast *c, int in, int out);
-void	exec_expr(t_data *data, t_ast *c, int in, int out);
+void	exec_pipe(t_data *data, t_ast *c);
+void	exec_and(t_data *data, t_ast *c);
+void	exec_or(t_data *data, t_ast *c);
+void	exec_expr(t_data *data, t_ast *c);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);
-void	do_execve(t_data *data, char **path, char **args);
+void	do_execve(t_data *data);
 
 int		is_builtin(t_ast *c);
-void	check_builtin(t_data *data, t_ast *c);
+void	builtin(t_data *data, t_ast *c);
 void	special_builtin(t_data *data, t_ast *c);
 void	builtin_echo(t_data *data, t_ast *c, int out);
 void	builtin_exit(t_data *data, t_ast *c);

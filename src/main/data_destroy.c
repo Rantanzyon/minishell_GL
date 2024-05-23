@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/23 00:24:45 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:22:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,23 @@ void	data_destroy(t_data *data, char *name, char *err)
 			free(data->ast);
 		}
 		free(data->input);
+		if (data->in != STDIN_FILENO)
+			close(data->in);
+		if (data->out != STDOUT_FILENO)
+			close(data->out);
+		if (data->path)
+			ft_free_array(data->path);
+		if (data->args)
+			ft_free_array(data->args);
 	}
 }
 
 void	data_destroy_exit(t_data *data, int status, char *name, char *err)
 {
+	data->exit = status;
 	data_destroy(data, name, err);
 	free(data);
-	clear_history();
+	rl_clear_history();
 	exit(status);
 }
 

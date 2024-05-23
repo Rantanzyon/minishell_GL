@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 04:32:31 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:09:33 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static char	*getenv_minishell(t_data *data, char *var)
 		}
 		c = c->next;
 	}
+	free(new);
 	return (path);
 }
 
@@ -85,6 +86,7 @@ static char	**get_path(t_data *data, char **args)
 
 	bin = getenv_minishell(data, "PATH");
 	path = ft_split(bin, ':');
+	free(bin);
 	if (!path)
 		data_destroy_exit(data, EXIT_FAILURE, "path", strerror(ENOMEM));
 	i = 0;
@@ -97,36 +99,30 @@ static char	**get_path(t_data *data, char **args)
 	return (path);
 }
 
-void	do_execve(t_data *data, char **path, char **args)
+void	do_execve(t_data *data)
 {
 	int		res;
 	int		i;
 
 	i = 0;
 	res = 0;
-	while (path[i])
-		res = execve(path[i++], args, NULL);
-	if (res == -1)
-		data_destroy_exit(data, CMD_NF, args[0], CMDNF);
+	while (data->path[i])
+		execve(data->path[i++], data->args, NULL);
+	data_destroy_exit(data, CMD_NF, data->args[0], CMDNF);
 }
 
 void	exec_cmd(t_data *data, t_ast *c)
 {
-	char	**args;
-	char	**path;
-
-	args = cmd_array(data, c);
+	data->args = cmd_array(data, c);
 	// si pas d'argument (only redir) => alors on close tout
-	if (args[0] == 0)
+	if (data->args[0] == 0)
 	{
 		if (data->in != STDIN_FILENO)
 			close(data->in);
 		if (data->out != STDOUT_FILENO)
 			close(data->out);
-		free(args[0]);
-		free(args);
 		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
 	}
-	path = get_path(data, args);
-	do_execve(data, path, args);
+	data->path = get_path(data, data->args);
+	do_execve(data);
 }

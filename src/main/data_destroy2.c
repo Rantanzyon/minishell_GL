@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:00:30 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:06:16 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:17:04 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,17 @@ void	free_final_lex(t_list **a)
 	}
 	free(a);
 }
+
+void	ft_free_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+

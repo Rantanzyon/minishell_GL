@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 21:48:45 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 04:27:26 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 09:35:23 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,24 +84,28 @@ int	analyse_arg_exit(t_data *data, char *str)
 void	builtin_exit(t_data *data, t_ast *c)
 {
 	int	n;
+	t_ast *temp;
 
+	temp = c;
 	if (data->pipelvl == 0)
 		ft_putendl_fd("exit", STDOUT_FILENO);
-	while (c->token != WORD)
-		c = c->right;
-	c = c->right;
-	while (c && c->token != WORD)
-		c = c->right;
-	if (!c)
+	while (temp->token != WORD)
+		temp = temp->right;
+	temp = temp->right;
+	while (temp && temp->token != WORD)
+		temp = temp->right;
+	if (!temp)
 		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
-	n = analyse_arg_exit(data, c->str);
-	c = c->right;
-	while (c && c->token != WORD)
-		c = c->right;
-	if (c)
+	n = analyse_arg_exit(data, temp->str);
+	temp = temp->right;
+	while (temp && temp->token != WORD)
+		temp = temp->right;
+	if (temp)
 	{
 		data->exit = EXIT_FAILURE;
-		reloop(data, "exit", TOOMANYARG);
+		err_message(data, "exit", TOOMANYARG);
+		if (data->pipelvl > 0)
+			data_destroy_exit(data, n, NULL, NULL);
 	}
 	else
 		data_destroy_exit(data, n, NULL, NULL);
