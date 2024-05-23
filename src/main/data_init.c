@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/22 23:27:53 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 04:18:42 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	data_init(t_data *data)
 	data->lex = NULL;
 	data->final_lex = NULL;
 	data->ast = NULL;
+	data->pipelvl = 0;
 	env_creation(data);
 }

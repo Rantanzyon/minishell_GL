@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 00:43:02 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 04:33:33 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ typedef struct s_data
 	t_ast	**ast;
 	int		actual_pid;
 	int		exit;
+	int		in;
+	int		out;
+	int		pipelvl;
 }	t_data;
 
 void	prompt(t_data *data);
@@ -153,15 +156,15 @@ void	exec_pipe(t_data *data, t_ast *c, int in, int out);
 void	exec_and(t_data *data, t_ast *c, int in, int out);
 void	exec_or(t_data *data, t_ast *c, int in, int out);
 void	exec_expr(t_data *data, t_ast *c, int in, int out);
-void	update_redir(t_data *data, t_ast *c, int in, int out);
-void	exec_cmd(t_data *data, t_ast *c, int in, int out);
+void	update_redir(t_data *data, t_ast *c);
+void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data, char **path, char **args);
 
 int		is_builtin(t_ast *c);
-void	check_builtin(t_data *data, t_ast *c, int in, int out);
-void	special_builtin(t_data *data, t_ast *c, int in, int out);
+void	check_builtin(t_data *data, t_ast *c);
+void	special_builtin(t_data *data, t_ast *c);
 void	builtin_echo(t_data *data, t_ast *c, int out);
-void	builtin_exit(t_data *data, t_ast *c, int in, int out);
+void	builtin_exit(t_data *data, t_ast *c);
 
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);

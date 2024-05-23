@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 00:07:38 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 04:32:31 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	do_execve(t_data *data, char **path, char **args)
 		data_destroy_exit(data, CMD_NF, args[0], CMDNF);
 }
 
-void	exec_cmd(t_data *data, t_ast *c, int in, int out)
+void	exec_cmd(t_data *data, t_ast *c)
 {
 	char	**args;
 	char	**path;
@@ -119,10 +119,10 @@ void	exec_cmd(t_data *data, t_ast *c, int in, int out)
 	// si pas d'argument (only redir) => alors on close tout
 	if (args[0] == 0)
 	{
-		if (in != STDIN_FILENO)
-			close(in);
-		if (out != STDOUT_FILENO)
-			close(out);
+		if (data->in != STDIN_FILENO)
+			close(data->in);
+		if (data->out != STDOUT_FILENO)
+			close(data->out);
 		free(args[0]);
 		free(args);
 		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
