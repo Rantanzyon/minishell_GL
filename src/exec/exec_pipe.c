@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:15:16 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 15:18:20 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:50:50 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ pid_t	child_left(t_data *data, t_ast *c, int fd[2])
 		// dprintf(2, "child left str = %s | in: %d | out: %d\n", c->str, in, fd[1]);
 		// if (data->out != STDOUT_FILENO)
 		// 	close(data->out);
+		if (data->out != STDOUT_FILENO)
+			close(data->out);
 		close(fd[0]);
 		executer(data, c, data->in, fd[1]);
 	}
@@ -41,8 +43,8 @@ pid_t	child_right(t_data *data, t_ast *c, int fd[2])
 	else if (pid == 0)
 	{
 		// dprintf(2, "child right str = %s | in: %d | out: %d\n", c->str, fd[0], out);
-		// if (data->in != STDIN_FILENO)
-		// 	close(data->in);
+		if (data->in != STDIN_FILENO)
+		 	close(data->in);
 		close(fd[1]);
 		executer(data, c, fd[0], data->out);
 	}

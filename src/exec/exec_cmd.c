@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 12:09:33 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:40:13 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,12 @@ static char	**get_path(t_data *data, char **args)
 
 void	do_execve(t_data *data)
 {
-	int		res;
 	int		i;
 
 	i = 0;
-	res = 0;
 	while (data->path[i])
 		execve(data->path[i++], data->args, NULL);
-	data_destroy_exit(data, CMD_NF, data->args[0], CMDNF);
+	data_destroy_exit(data, 127, data->args[0], CMDNF);
 }
 
 void	exec_cmd(t_data *data, t_ast *c)

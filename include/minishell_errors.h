@@ -6,14 +6,12 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 09:35:56 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/27 15:02:40 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:26:03 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_ERRORS_H
 # define MINISHELL_ERRORS_H
-
-# define CMD_NF 127
 
 # define SYNTX_ERR_PAR "syntax error: Unclosed parenthesis"
 # define SYNTX_ERR_QUOTE "syntax error: Unclosed quote"
