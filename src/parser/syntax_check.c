@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:03:48 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 01:02:01 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:38:23 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@ void	syntax_error(t_data *data, char *str)
 	str3 = ft_strjoin(str2, "\'");
 	free(str);
 	free(str2);
-	if (!str3)
-	{
-		data->exit = EXIT_FAILURE;	
-		reloop(data, "str3", strerror(ENOMEM));
-	}
-	err_message(data, NULL, str3);
+	if (!str3)	
+		reloop(data, EXIT_FAILURE, "str3", strerror(ENOMEM));
+	err_message(data, 258, NULL, str3);
 	free(str3);
 	data->exit = 2;	
-	reloop(data, NULL, NULL);
+	reloop(data, 258, NULL, NULL);
 }
 
 static void	parenthesis_check(t_data *data, t_list *c)
@@ -55,7 +52,7 @@ static void	parenthesis_check(t_data *data, t_list *c)
 	else
 		str = ft_strdup("(");
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }
 

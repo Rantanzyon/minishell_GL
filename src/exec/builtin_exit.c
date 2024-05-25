@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 21:48:45 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 09:35:23 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:41:19 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	builtin_exit(t_data *data, t_ast *c)
 	if (temp)
 	{
 		data->exit = EXIT_FAILURE;
-		err_message(data, "exit", TOOMANYARG);
+		err_message(data, EXIT_FAILURE, "exit", TOOMANYARG);
 		if (data->pipelvl > 0)
 			data_destroy_exit(data, n, NULL, NULL);
 	}

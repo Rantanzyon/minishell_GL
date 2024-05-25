@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 12:04:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:23:13 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,10 @@ void	prompt(t_data *data);
 t_data	*data_creation(char **argv, char **envp);
 void	data_init(t_data *data);
 void	ft_loop(t_data *data);
-void	reloop(t_data *data, char *name, char *err);
-void	data_destroy(t_data *data, char *name, char *err);
+void	reloop(t_data *data, int status, char *name, char *err);
+void	data_destroy(t_data *data, int status, char *name, char *err);
 void	data_destroy_exit(t_data *data, int status, char *name, char *err);
-void	err_message(t_data *data, char *name, char *err);
+void	err_message(t_data *data, int status, char *name, char *err);
 void	free_final_lex(t_list **a);
 void	free_env(t_list **a);
 void	free_ast(t_ast *c);
@@ -162,11 +162,13 @@ void	exec_expr(t_data *data, t_ast *c);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data);
+void	close_in(t_data *data);
+void	close_out(t_data *data);
 
 int		is_builtin(t_ast *c);
 void	builtin(t_data *data, t_ast *c);
 void	special_builtin(t_data *data, t_ast *c);
-void	builtin_echo(t_data *data, t_ast *c, int out);
+void	builtin_echo(t_data *data, t_ast *c);
 void	builtin_exit(t_data *data, t_ast *c);
 
 void	print_lex(t_data *data);

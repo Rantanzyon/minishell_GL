@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 18:03:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/04/21 19:26:52 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:32:07 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	syntax1(t_data *data, t_list *c)
 	else
 		return ;
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }
 
@@ -44,7 +44,7 @@ void	syntax2(t_data *data, t_list *c)
 	else
 		return ;
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }
 
@@ -62,7 +62,7 @@ void	syntax3(t_data *data, t_list *c)
 	else
 		return ;
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }
 
@@ -80,7 +80,7 @@ void	syntax4(t_data *data, t_list *c)
 	else
 		return ;
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }
 
@@ -100,6 +100,6 @@ void	syntax5(t_data *data, t_list *c)
 	else
 		return ;
 	if (!str)
-		reloop(data, "str", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 	syntax_error(data, str);
 }

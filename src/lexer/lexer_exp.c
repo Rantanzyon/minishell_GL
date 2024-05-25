@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 18:39:28 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/20 23:15:58 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:30:36 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 	char	*name;
 
 	i = ft_lstindex(data->lex, cursor);
-	//dprintf(2, "exp, exit = %d\n", data->exit);
 	if (nextok == '$')
 		name = ft_itoa(data->actual_pid);
 	else if (nextok == '?')
@@ -26,8 +25,7 @@ static t_list	*exp_special(t_data *data, t_list *cursor, char nextok)
 	else
 		name = ft_strdup(data->argv[0] + 2);
 	if (!name)
-		reloop(data, "name", strerror(ENOMEM));
-	//dprintf(2, "itoa = %s\n", name);
+		reloop(data, EXIT_FAILURE, "name", strerror(ENOMEM));
 	free(((t_lex *)ft_lstat(data->lex, i)->content));
 	ft_lstdelnode(data->lex, i);
 	free(((t_lex *)ft_lstat(data->lex, i)->content));

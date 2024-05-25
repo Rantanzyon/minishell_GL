@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:23:40 by bbialy            #+#    #+#             */
-/*   Updated: 2024/04/21 21:11:27 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:29:11 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_add_token(t_data *data, char *word, int token)
 	if (!new_struct)
 	{
 		free(word);
-		reloop(data, "new_struct", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "new_struct", strerror(ENOMEM));
 	}
 	new_struct->token = token;
 	new_struct->str = word;
@@ -31,7 +31,7 @@ void	ft_add_token(t_data *data, char *word, int token)
 	if (!new_node)
 	{
 		free(word);
-		reloop(data, "new_node", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "new_node", strerror(ENOMEM));
 	}
 	ft_lstadd_back(data->final_lex, new_node);
 }
@@ -115,7 +115,7 @@ void	lexer_final(t_data *data)
 	remove_empty(data);
 	data->final_lex = (t_list **)malloc(sizeof(t_list *));
 	if (!data->final_lex)
-		reloop(data, "data->final_lex", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "data->final_lex", strerror(ENOMEM));
 	*(data->final_lex) = NULL;
 	create_lst_final(data);
 }

@@ -6,24 +6,28 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:00:30 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 12:17:04 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 01:01:02 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_ast(t_ast *c)
+void	close_in(t_data *data)
 {
-	if (c->left)
-		free_ast(c->left);
-	if (c->right)
-		free_ast(c->right);
-	if (c->hdfd != -1)
+	if (data->in != STDIN_FILENO && data->in != -1)
 	{
-		close(c->hdfd);
-		c->hdfd = -1;
+		close(data->in);
+		data->in = -1;
 	}
-	free(c);
+}
+
+void	close_out(t_data *data)
+{
+	if (data->out != STDOUT_FILENO && data->out != -1)
+	{
+		close(data->out);
+		data->out = -1;
+	}
 }
 
 void	free_env(t_list **a)

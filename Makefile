@@ -41,6 +41,7 @@ SRC = $(addprefix $(MDIR)/, \
 	exec_cmd.c \
 	builtin.c \
 	builtin_exit.c \
+	builtin_echo.c \
 	) \
 	src/print/print.c \
 #	ast.c \

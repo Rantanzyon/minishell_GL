@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/23 12:19:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:26:55 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ void	env_creation(t_data *data)
 
 	data->env = (t_list **)malloc(sizeof(t_list *));
 	if (!data->env)
-		reloop(data, "data->env", strerror(ENOMEM));
+		reloop(data, EXIT_FAILURE, "data->env", strerror(ENOMEM));
 	*(data->env) = NULL;
 	i = 0;
 	while (data->envp[i])
 	{
 		str = ft_strdup(data->envp[i]);
 		if (!str)
-			reloop(data, "str", strerror(ENOMEM));
+			reloop(data, EXIT_FAILURE, "str", strerror(ENOMEM));
 		new = ft_lstnew(str);
 		if (!new)
-			reloop(data, "new", strerror(ENOMEM));
+			reloop(data, EXIT_FAILURE, "new", strerror(ENOMEM));
 		ft_lstadd_back(data->env, new);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:29:10 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 09:21:23 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 00:28:56 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ void	builtin(t_data *data, t_ast *c)
 		return ;
 	if (!ft_strcmp(temp->str, "exit"))
 		builtin_exit(data, temp);
-/* 	else if (!ft_strcmp(temp->str, "cd"))
-		builtin_cd(data, temp);
- 	if (!ft_strcmp(temp->str, "echo"))
-		builtin_echo(data, temp, out);
-	else if (!ft_strcmp(temp->str, "pwd"))
-		builtin_pwd(data, temp);
-	else if (!ft_strcmp(temp->str, "export"))
-		builtin_export(data, temp);
-	else if (!ft_strcmp(temp->str, "unset"))
-		builtin_unset(data, temp);
-	else if (!ft_strcmp(temp->str, "env"))
-		builtin_env(data, temp); */
+ 	else if (!ft_strcmp(temp->str, "echo"))
+		builtin_echo(data, temp);
+ 	// else if (!ft_strcmp(temp->str, "cd"))
+	// 	builtin_cd(data, temp);
+	// else if (!ft_strcmp(temp->str, "pwd"))
+	// 	builtin_pwd(data, temp);
+	// else if (!ft_strcmp(temp->str, "export"))
+	// 	builtin_export(data, temp);
+	// else if (!ft_strcmp(temp->str, "unset"))
+	// 	builtin_unset(data, temp);
+	// else if (!ft_strcmp(temp->str, "env"))
+	// 	builtin_env(data, temp);
 }

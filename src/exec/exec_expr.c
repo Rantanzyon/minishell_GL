@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 12:37:01 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:40:49 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 
 	pid = fork();
 	if (pid == -1)
-		reloop(data, "fork", strerror(errno));
+		reloop(data, EXIT_FAILURE, "fork", strerror(errno));
 	if (pid == 0)
 	{
 		update_redir(data, c);
@@ -34,11 +34,21 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 		data->exit = WEXITSTATUS(status);
 }
 
-
 void	exec_expr(t_data *data, t_ast *c)
 {
+	int	in_backup;
+	int	out_backup;
 	if (is_builtin(c))
+	{
+		in_backup = dup(data->in);
+		out_backup = dup(data->out);
+		update_redir(data, c);
 		builtin(data, c);
+		close_in(data);
+		close_out(data);
+		data->in = dup(in_backup);
+		data->out = dup(out_backup);
+	}
 	else if (c->prev_node == PIPE)
 	{
 		update_redir(data, c);
