@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/26 21:02:01 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:05:24 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,99 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 		data->exit = WEXITSTATUS(status);
 }
 
+
+// static void	ft_addnode(t_data *data, t_list **lst, char c, int pretok)
+// {
+// 	t_lex	*cursor;
+// 	t_list	*node;
+
+// 	cursor = (t_lex *)malloc(sizeof(t_lex));
+// 	if (!cursor)
+// 		reloop(data, EXIT_FAILURE, "cursor", strerror(ENOMEM));
+// 	cursor->c = c;
+// 	cursor->pretok = pretok;
+// 	node = ft_lstnew(cursor);
+// 	if (!node)
+// 		reloop(data, EXIT_FAILURE, "node", strerror(ENOMEM));
+// 	ft_lstadd_back(lst, node);
+// }
+
+int	check_char(char c)
+{
+	if (c == '"')
+		return (DQ);
+	else if (c == '\'')
+		return (SQ);
+	else if (c == '$')
+		return (EXP);
+	else
+		return (CHAR);
+}
+
 char	*do_expand(t_data *data, char *str, int *i)
 {
 	char	*name;
+	char	*temp;
 	char	*expand;
+	int		j;
 
 	expand = ft_strdup("");
 	if (!expand)
 		return (NULL);
-	*i++;
-	if (str[*i] == '\'' || str[*i] == '\"')
+	(*i)++;
+	if (!str[*i])
 		return (expand);
 	if (str[*i] != '_' && !ft_isalpha(str[*i]))
 	{
-		*i++;
+		(*i)++;
 		return (expand);
 	}
-	expand = gnl_strjoin(expand, str[*i]);
-	while (str[*i] && )
+	name = ft_strdup("");
+	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 	{
-		
+		temp = malloc(2);
+		temp[0] = str[*i];
+		temp[1] = '\0';
+		name = gnl_strjoin(name, temp);
+		(*i)++;
 	}
+
+	j = 0;
+	while (data->envp[j])
+	{
+		if (!strncmp(name, data->envp[j], ft_strlen(name)) && data->envp[j][ft_strlen(name)] == '=')
+			expand = ft_substr(data->envp[j], ft_strlen(name) + 1, ft_strlen(data->envp[j]));
+		j++;
+	}
+	return (expand);
 }
 
 void	change_node(t_data *data, t_ast *c)
 {
+	// int	i;
+	// int token;
+	
+	// c->lst = (t_list **)malloc(sizeof(t_list *));
+	// if (!c->lst)
+	// 	reloop(data, EXIT_FAILURE, "c->lst", strerror(ENOMEM));
+	// *(c->lst) = NULL;
+
+	// i = 0;
+	// while (c->str[i])
+	// {
+	// 	token = check_char(c->str[i]);
+	// 	ft_addnode(data, c->lst, c->str[i], token);
+	// 	i++;
+	// }
+	// replace_sq(data, c);
+	// replace_dq(data, c);
+	// do_expand(data, c);
+	
+
+
+
+
+	
 	int	i;
 	char	*str;
 	char	*temp;

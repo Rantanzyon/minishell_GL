@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/26 16:47:35 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:23:57 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_ast
 	int				token;
 	int				hdfd;
 	int				prev_node;
+	t_list			**lst;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }	t_ast;
