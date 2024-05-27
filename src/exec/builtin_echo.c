@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 21:10:46 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/25 09:47:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:32:54 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*get_str(t_ast *c, int active)
 	char	*str;
 
 	str = ft_strdup("");
+	c = c->right;
 	while (c)
 	{
 		str = gnl_strjoin(str, c->str);

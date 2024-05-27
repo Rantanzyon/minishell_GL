@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/25 09:26:55 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:55:17 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	data_init(t_data *data)
 {
 	data->input = NULL;
 	data->lex = NULL;
+	data->temp_final_lex = NULL;
 	data->final_lex = NULL;
 	data->ast = NULL;
 	data->pipelvl = 0;

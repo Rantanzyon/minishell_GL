@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/25 13:18:09 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:35:14 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	data_destroy(t_data *data, int status, char *name, char *err)
 		ft_lstclear(data->lex, free);
 		free(data->lex);
 		free_final_lex(data->final_lex);
+		free_final_lex(data->temp_final_lex);
 		free_env(data->env);
 		if (data->ast)
 		{

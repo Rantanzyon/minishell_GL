@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 21:18:13 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/25 09:30:09 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:50:45 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	is_redir_right(t_data *data, t_list **cursor)
 		((t_lex *)(*cursor)->next->content)->pretok == REDIR_RIGHT)
 	{
 		word = ft_strdup(">>");
-		ft_add_token(data, word, RR_REDIR);
+		ft_add_token(data, data->temp_final_lex, word, RR_REDIR);
 		*cursor = (*cursor)->next;
 	}
 	else
 	{
 		word = ft_strdup(">");
-		ft_add_token(data, word, R_REDIR);
+		ft_add_token(data, data->temp_final_lex, word, R_REDIR);
 	}
 	if (!word)
 		reloop(data, EXIT_FAILURE, "word", strerror(ENOMEM));
@@ -41,13 +41,13 @@ void	is_redir_left(t_data *data, t_list **cursor)
 		((t_lex *)(*cursor)->next->content)->pretok == REDIR_LEFT)
 	{
 		word = ft_strdup("<<");
-		ft_add_token(data, word, LL_REDIR);
+		ft_add_token(data, data->temp_final_lex, word, LL_REDIR);
 		*cursor = (*cursor)->next;
 	}
 	else
 	{
 		word = ft_strdup("<");
-		ft_add_token(data, word, L_REDIR);
+		ft_add_token(data, data->temp_final_lex, word, L_REDIR);
 	}
 	if (!word)
 		reloop(data, EXIT_FAILURE, "word", strerror(ENOMEM));
@@ -78,7 +78,7 @@ void	is_word(t_data *data, t_list **cursor)
 			reloop(data, EXIT_FAILURE, "word", strerror(ENOMEM));
 		*cursor = (*cursor)->next;
 	}
-	ft_add_token(data, word, WORD);
+	ft_add_token(data, data->temp_final_lex, word, WORD);
 }
 
 void	is_empty(t_data *data, t_list **cursor)
@@ -88,6 +88,6 @@ void	is_empty(t_data *data, t_list **cursor)
 	word = ft_strdup("");
 	if (!word)
 		reloop(data, EXIT_FAILURE, "word", strerror(ENOMEM));
-	ft_add_token(data, word, WORD);
+	ft_add_token(data, data->temp_final_lex, word, WORD);
 	*cursor = (*cursor)->next;
 }

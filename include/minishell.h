@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/25 09:23:13 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:47:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_data
 	char	**envp;
 	t_list	**env;
 	t_list	**lex;
+	t_list	**temp_final_lex;
 	t_list	**final_lex;
 	t_ast	**ast;
 	int		actual_pid;
@@ -124,8 +125,9 @@ void	lexer_expand(t_data *data);
 t_list	*exp_var(t_data *data, t_list *cursor);
 void	ft_lstadd_str(t_data *data, char *name, int n);
 void	lexer_quote_final(t_data *data);
+void	lexer_temp(t_data *data);
 void	lexer_final(t_data *data);
-void	ft_add_token(t_data *data, char *word, int token);
+void	ft_add_token(t_data *data, t_list **lst, char *word, int token);
 void	is_redir_right(t_data *data, t_list **cursor);
 void	is_redir_left(t_data *data, t_list **cursor);
 void	is_word(t_data *data, t_list **cursor);

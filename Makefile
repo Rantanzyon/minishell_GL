@@ -19,6 +19,7 @@ SRC = $(addprefix $(MDIR)/, \
 	lexer_exp.c \
 	lexer_exp_utils.c \
 	lexer_quote_final.c \
+	lexer_temp.c \
 	lexer_final.c \
 	lexer_final_utils.c \
 	lexer_final_utils2.c \

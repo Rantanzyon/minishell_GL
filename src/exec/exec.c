@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 21:28:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:31:43 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,8 @@ void	exec_and(t_data *data, t_ast *c)
 void	exec_or(t_data *data, t_ast *c)
 {
 	executer(data, c->left, data->in, data->out);
-	dprintf(2, "node: %s | exit: %d | int: %d | out: %d\n", c->str, data->exit, data->in, data->out);
-	
 	if (data->exit != 0)
 		executer(data, c->right, data->in, data->out);
-	dprintf(2, "node: %s | exit: %d | int: %d | out: %d\n", c->str, data->exit, data->in, data->out);
-
 	if (c->prev_node == PIPE)
 	{
 		if (data->in != STDIN_FILENO)

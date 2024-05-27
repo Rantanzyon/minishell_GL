@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:26:16 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/25 09:27:52 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:46:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static int	ft_check_char(char c)
 		return (REDIR_LEFT);
 	else if (c == '>')
 		return (REDIR_RIGHT);
-	else if (c == '$')
-		return (EXP);
 	else if (c == '"')
 		return (DQ);
 	else if (c == '\'')
@@ -54,7 +52,7 @@ static void	ft_add_pretoken(t_data *data, char c, int pretok)
 	ft_lstadd_back(data->lex, node);
 }
 
-static void	check_empty_string(t_data *data, int i)
+void	check_empty_string(t_data *data, int i)
 {
 	char	cur;
 	char	next;
@@ -82,7 +80,7 @@ static void	lexer_fill_char(t_data *data)
 		c = data->input[i];
 		pretok = ft_check_char(data->input[i]);
 		ft_add_pretoken(data, c, pretok);
-		check_empty_string(data, i);
+		//check_empty_string(data, i);
 		i++;
 	}
 }
@@ -90,8 +88,12 @@ static void	lexer_fill_char(t_data *data)
 void	lexer(t_data *data)
 {
 	lexer_fill_char(data);
-	lexer_quote(data);
-	lexer_expand(data);
-	lexer_quote_final(data);
+	print_lex(data);
+	// lexer_quote(data);
+	// lexer_expand(data);
+	// lexer_quote_final(data);
+	lexer_temp(data);
+	print_lst(data->temp_final_lex);
 	lexer_final(data);
+	print_lst(data->final_lex);
 }
