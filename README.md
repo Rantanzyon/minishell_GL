@@ -101,7 +101,7 @@ L'AST etant cree, il ne reste plus qu'a executer le tout de maniere recursif ave
 
 <img width="880" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/950648ee-4f27-428c-a234-6ab085f56898">
 
-On commence par PIPE 1, data->in == 0 (STDIN_FILENO), et data->out == 1 (STDOUT_FILENO), par defaut en haut de la node.  
+On commence par PIPE 1, data->in = 0 (STDIN_FILENO), et data->out = 1 (STDOUT_FILENO), par defaut en haut de la node.  
 Je pipe fd[2] : fd[0] = 3 et fd[1] = 4;  
 Je fork 2 fois et cree 2 childs a qui j'envoie les fd correspondants :  
 	- Child right: data->in = fd[0] (donc 3), et data->out = data->out (donc 1);  
