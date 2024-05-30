@@ -121,5 +121,77 @@ Et voila, chaque expression peut maintenant lire et ecrire dans leur fd par defa
 Evidemment, si des redirect sont dans l'expression, il faut mettre a jour le data->in et data->out;  
 ATTENTION ! Ne pas oublier de close les fds inutilises dans les childs et dans les parents.  
 
+```(ls | grep -v a && echo hello) | cat```
+
+<img width="912" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/6ea4a6b3-e431-45cb-9a4e-0bd09257c96d">
+
+Ici, le token AND ne cree pas de nouveau pipe, il envoie juste le meme data->in et data->out aux nodes gauche puis droite, qui vont lire et ecrire au meme endroit par defaut.
+
+## EXEMPLE DE CODE
+Grossierement, voici comment est construit l'execution en recursif.
+Evidemment, je montre juste l'idee globale, tout n'est pas gere dans ce morceau de code (la gestion des signaux, la gestion des closes, finir une node en la laissant remonter elle meme ou exit si on se trouve dans un child, etc...).  
+
+Mon premier appel sera de la forme
+```c
+executer(node, STDIN_FILENO, STDOUT_FILENO);
+```
+
+
+```c
+void	executer(t_ast *node, int in, int out)
+{
+	if (node->token == AND)
+		exec_and(node, in, out);
+	else if (node->token == OR)
+		exec_or(node, in, out);
+	else if (node->token == PIPE)
+		exec_pipe(node, in, out);
+	else
+		exec_expression(node, in, out);
+}
+
+void	exec_and(t_ast *node, int in, int out)
+{
+	executer(node->left, in, out);
+	if (data->exit_status == 0)
+		executer(node->right, in, out);
+}
+
+void	exec_or(t_ast *node, int in, int out)
+{
+	executer(node->left, in, out);
+	if (data->exit_status != 0)
+		executer(node->right, in, out);
+}
+
+void	exec_pipe(t_ast *node, int in, int out)
+{
+	int		fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
+	int		status;
+
+	pipe(fd);
+	pid1 = fork();
+	pid2 = fork();
+	if (pid1 == 0)
+		executer(node->left, in, fd[1]);
+	if (pid2 == 0)
+		executer(node->right, fd[0], out);
+	waitpid(pid1, &status, 0);
+	if (WIFEXITED(status))
+		data->exit_status = WEXITSTATUS(status);
+	waitpid(pid2, &status, 0);
+	if (WIFEXITED(status))
+		data->exit_status = WEXITSTATUS(status);
+}
+
+void	exec_expression(t_ast *node, int in, int out);
+{
+	update_redirect();
+	execve_cmd();
+}
+```
+
 
 
