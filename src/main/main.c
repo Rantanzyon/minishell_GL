@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:46 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/30 06:31:51 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:37:49 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int	main(int argc, char **argv, char **envp)
 }
 
 /*
-((((MERDE || ls)| >out1 cat >out2) && echo bonjour || echo bonsoir && echo salut) | grep -v a) && ((waxz || sleep 2) | ls -l) && wc <Makefile -l
+((((MERDE || ls)| >out1 cat >out2) && echo bonjour || echo bonsoir && echo salut) | grep -v a) && (( << LIM waxz || sleep 2) | ls -l) && wc <Makefile -l
 */
