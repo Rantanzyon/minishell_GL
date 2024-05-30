@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/27 12:05:24 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/30 06:44:12 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,6 @@ void	exec_expr(t_data *data, t_ast *c)
 	int	in_backup;
 	int	out_backup;
 	change_word(data, c);
-	print_ast(*data->ast, 0);
 	if (is_builtin(c))
 	{
 		in_backup = dup(data->in);
