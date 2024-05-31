@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:47:59 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/25 09:39:05 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:46:59 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ void	fill_prev_node(t_data *data, t_ast *c, int prev)
 	}
 }
 
+void	prev_node(t_ast *c, t_ast *previous_node)
+{
+	c->prev = previous_node;
+	if (c->right)
+		prev_node(c->right, c);
+	if (c->left)
+		prev_node(c->left, c);
+}
+
 void	ast(t_data *data)
 {
 	t_ast	*c;
@@ -44,4 +53,6 @@ void	ast(t_data *data)
 	*(data->ast) = c;
 	rec(data, c, 0, ft_lstsize(*(data->final_lex)) - 1);
 	fill_prev_node(data, *data->ast, START);
+	prev_node(*data->ast, NULL);
+	
 }

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/30 06:44:31 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:40:14 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_ast
 	t_list			**lst;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	struct s_ast	*prev;
 }	t_ast;
 
 typedef struct s_data
