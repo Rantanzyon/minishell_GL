@@ -9,10 +9,10 @@ Le lexer, le parser, et enfin l'executer.
 
 ## LEXER
 
-Le but du lexer est de transformer notre input en list chainee, chaque node contenant la chaine de caractere et son token associe.
+Le but du lexer est de transformer notre input en liste chainee, chaque node contenant la chaine de caractere et son token associe.
 
 Par exemple :
-```ls | wc``` 
+```ls | cat``` 
 devient
 
 <img width="269" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/3d05fbea-36a1-4997-80d9-3c53f16f57c4">
