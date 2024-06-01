@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/31 23:40:14 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:38:33 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <string.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 
 /* int execve_success;
 void sig_handler(int signum); */
@@ -105,6 +107,8 @@ typedef struct s_data
 	int		exit;
 	int		in;
 	int		out;
+	int		backup_in;
+	int		backup_out;
 	int		pipelvl;
 }	t_data;
 

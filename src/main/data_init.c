@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/26 16:55:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:23:24 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	data_init(t_data *data)
 	data->pipelvl = 0;
 	data->in = STDIN_FILENO;
 	data->out = STDOUT_FILENO;
+	data->backup_in = -1;
+	data->backup_out = -1;
 	data->path = NULL;
 	data->args = NULL;
 	env_creation(data);

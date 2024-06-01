@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/05/30 02:38:41 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:38:42 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,25 @@ void	err_message(t_data *data, int status, char *name, char *err)
 	free(str);
 }
 
+void	free_final_lex2(t_list **a)
+{
+	t_list	*temp;
+	t_list	*cursor;
+
+	if (!a)
+		return ;
+	cursor = *a;
+	while (cursor)
+	{
+		temp = cursor->next;
+		free(((t_final *)cursor->content)->str);
+		free(((t_final *)cursor->content));
+		free(cursor);
+		cursor = temp;
+	}
+	free(a);
+}
+
 void	data_destroy(t_data *data, int status, char *name, char *err)
 {
 	if (err)
@@ -61,7 +80,7 @@ void	data_destroy(t_data *data, int status, char *name, char *err)
 		ft_lstclear(data->lex, free);
 		free(data->lex);
 		free_final_lex(data->final_lex);
-		free_final_lex(data->temp_final_lex);
+		free_final_lex2(data->temp_final_lex);
 		free_env(data->env);
 		if (data->ast)
 		{
@@ -69,6 +88,10 @@ void	data_destroy(t_data *data, int status, char *name, char *err)
 			free(data->ast);
 		}
 		free(data->input);
+		if (data->backup_in != STDIN_FILENO && data->backup_in != -1)
+			close(data->backup_in);
+		if (data->backup_out != STDOUT_FILENO && data->backup_out != -1)
+			close(data->backup_out);	
 		if (data->in != STDIN_FILENO)
 			close(data->in);
 		if (data->out != STDOUT_FILENO)

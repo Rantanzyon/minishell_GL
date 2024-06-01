@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 21:40:13 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:04:48 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,36 @@ static char	**get_path(t_data *data, char **args)
 	return (path);
 }
 
+void	check_file(t_data *data)
+{
+	struct stat file_info;
+	
+	if (ft_strchr(data->args[0], '/'))
+	{
+		if (lstat(data->args[0], &file_info) == -1)
+		{
+			if (errno == ENOTDIR)
+				data_destroy_exit(data, 126, data->args[0], strerror(errno));
+			data_destroy_exit(data, 127, data->args[0], strerror(errno));
+		}
+		else
+		{
+			if (S_ISDIR(file_info.st_mode))
+				data_destroy_exit(data, 126, data->args[0], strerror(EISDIR));
+			if (access(data->args[0], X_OK) == -1)
+				data_destroy_exit(data, 126, data->args[0], strerror(errno));
+		}
+		execve(data->args[0], data->args, data->envp);
+		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
+	}
+}
+
 void	do_execve(t_data *data)
 {
 	int		i;
 
 	i = 0;
+	check_file(data);
 	while (data->path[i])
 		execve(data->path[i++], data->args, NULL);
 	data_destroy_exit(data, 127, data->args[0], CMDNF);
