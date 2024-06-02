@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:15:16 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/25 00:26:41 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 09:08:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,13 @@ pid_t	child_right(t_data *data, t_ast *c, int fd[2])
 
 void	close_parent(t_data *data, t_ast *c, int fd[2])
 {
-	if (data->in != STDIN_FILENO && c->prev_node != AND && c->prev_node != OR)
-		close(data->in);
-	if (data->out != STDOUT_FILENO && c->prev_node != AND && c->prev_node != OR)
-		close(data->out);
+	if (!c->prev || c->prev->token == PIPE)
+	{
+		if (data->in != STDIN_FILENO)
+			close(data->in);
+		if (data->out != STDOUT_FILENO)
+			close(data->out);	
+	}
 	close(fd[0]);
 	close(fd[1]);
 }
@@ -74,6 +77,6 @@ void	exec_pipe(t_data *data, t_ast *c)
 	waitpid(pid2, &status, 0);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
-	if (c->prev_node == PIPE)
+	if (c->prev && c->prev->token == PIPE)
 		data_destroy_exit(data, data->exit, NULL, NULL);
 }

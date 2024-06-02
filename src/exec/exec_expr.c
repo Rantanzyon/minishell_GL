@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/01 20:38:06 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 08:43:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void	exec_expr(t_data *data, t_ast *c)
 		data->in = dup(data->backup_in);
 		data->out = dup(data->backup_out);
 	}
-	else if (c->prev_node == PIPE)
+	else if (c->prev && c->prev->token == PIPE)
 	{
 		update_redir(data, c);
 		exec_cmd(data, c);

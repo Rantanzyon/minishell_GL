@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/30 06:43:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 09:02:40 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,10 @@
 
 void	exec_and(t_data *data, t_ast *c)
 {
-	int	in_backup;
-	int	out_backup;
-	
-	in_backup = dup(data->in);
-	out_backup = dup(data->out);
 	executer(data, c->left, data->in, data->out);
-	close_in(data);
-	close_out(data);
-	data->in = dup(in_backup);
-	data->out = dup(out_backup);
 	if (data->exit == 0)
 		executer(data, c->right, data->in, data->out);
-	if (c->prev_node == PIPE)
+	if (c->prev && c->prev->token == PIPE)
 	{
 		if (data->in != STDIN_FILENO)
 			close(data->in);
@@ -39,19 +30,10 @@ void	exec_and(t_data *data, t_ast *c)
 
 void	exec_or(t_data *data, t_ast *c)
 {
-	int	in_backup;
-	int	out_backup;
-	
-	in_backup = dup(data->in);
-	out_backup = dup(data->out);
 	executer(data, c->left, data->in, data->out);
-	close_in(data);
-	close_out(data);
-	data->in = dup(in_backup);
-	data->out = dup(out_backup);
 	if (data->exit != 0)
 		executer(data, c->right, data->in, data->out);
-	if (c->prev_node == PIPE)
+	if (c->prev && c->prev->token == PIPE)
 	{
 		if (data->in != STDIN_FILENO)
 			close(data->in);
