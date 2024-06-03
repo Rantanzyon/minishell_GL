@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 23:16:54 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 02:25:17 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,8 @@ void	exec_expr(t_data *data, t_ast *c)
 	{
 		update_redir(data, c);
 		builtin(data, c);
+		if (c->prev && c->prev->token == PIPE)
+			data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
 	}
 	else if (c->prev && c->prev->token == PIPE)
 	{

@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 23:42:57 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 20:12:08 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exec_or(t_data *data, t_ast *c, int in, int out)
 
 void	executer(t_data *data, t_ast *c, int in, int out)
 {
-	//dprintf(2, "node: %s | int: %d | out: %d\n", c->str, in, out);
+	// dprintf(2, "node: %s | int: %d | out: %d\n", c->str, in, out);
 	data->in = in;
 	data->out = out;
 	if (c->token == AND)
@@ -61,6 +61,7 @@ void	executer(t_data *data, t_ast *c, int in, int out)
 		exec_expr(data, c);
 }
 
+
 void	exec(t_data *data)
 {
 	t_ast	*c;
@@ -68,5 +69,9 @@ void	exec(t_data *data)
 	c = (*data->ast);
 	heredoc(data, c);
 	print_ast(*data->ast, 0);
+	data->fds = malloc(sizeof(t_list *));
+	if (!data->fds)
+		reloop(data, EXIT_FAILURE, "data->fds", strerror(ENOMEM));
+	*data->fds = NULL;
 	executer(data, c, STDIN_FILENO, STDOUT_FILENO);
 }

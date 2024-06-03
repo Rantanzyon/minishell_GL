@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 23:24:23 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 02:13:36 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_data
 	t_list	**temp_final_lex;
 	t_list	**final_lex;
 	t_ast	**ast;
+	t_list	**fds;
 	int		actual_pid;
 	char	**args;
 	char	**path;
@@ -163,7 +164,7 @@ void	heredoc(t_data *data, t_ast *c);
 void	executer(t_data *data, t_ast *c, int in, int out);
 void	exec_pipe(t_data *data, t_ast *c);
 void	exec_and(t_data *data, t_ast *c, int in, int out);
-void	exec_or(t_data *data, t_ast *c);
+void	exec_or(t_data *data, t_ast *c, int in, int out);
 void	exec_expr(t_data *data, t_ast *c);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);

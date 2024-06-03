@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:15:16 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 09:08:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 02:26:15 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ pid_t	child_right(t_data *data, t_ast *c, int fd[2])
 
 void	close_parent(t_data *data, t_ast *c, int fd[2])
 {
+	// dprintf(2, "%p\n", c->prev);
 	if (!c->prev || c->prev->token == PIPE)
 	{
 		if (data->in != STDIN_FILENO)
