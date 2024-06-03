@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/06/01 20:38:42 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:49:47 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_ast(t_ast *c)
 		close(c->hdfd);
 		c->hdfd = -1;
 	}
+	free(c->str);
 	free(c);
 }
 
@@ -79,19 +80,15 @@ void	data_destroy(t_data *data, int status, char *name, char *err)
 		data->exit = status;
 		ft_lstclear(data->lex, free);
 		free(data->lex);
-		free_final_lex(data->final_lex);
 		free_final_lex2(data->temp_final_lex);
+		free_final_lex(data->final_lex);
 		free_env(data->env);
 		if (data->ast)
 		{
 			free_ast(*data->ast);
 			free(data->ast);
 		}
-		free(data->input);
-		if (data->backup_in != STDIN_FILENO && data->backup_in != -1)
-			close(data->backup_in);
-		if (data->backup_out != STDOUT_FILENO && data->backup_out != -1)
-			close(data->backup_out);	
+		free(data->input);	
 		if (data->in != STDIN_FILENO)
 			close(data->in);
 		if (data->out != STDOUT_FILENO)

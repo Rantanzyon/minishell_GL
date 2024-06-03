@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:07:29 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/22 23:28:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 01:46:31 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ int	ft_findlast_andor(t_list **lex, int start, int end)
 t_ast	*fill_node(t_data *data, t_ast *c, int i)
 {
 	c->token = ((t_final *)ft_lstat(data->final_lex, i)->content)->token;
-	c->str = ((t_final *)ft_lstat(data->final_lex, i)->content)->str;
+	c->str = ft_strdup(((t_final *)ft_lstat(data->final_lex, i)->content)->str);
+	if (!c->str)
+		reloop(data, EXIT_FAILURE, "c->str", strerror(ENOMEM));
 	c->hdfd = -1;
 	c->right = NULL;
 	c->left = NULL;

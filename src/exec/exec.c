@@ -6,15 +6,17 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 09:02:40 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:42:57 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_and(t_data *data, t_ast *c)
+void	exec_and(t_data *data, t_ast *c, int in, int out)
 {
 	executer(data, c->left, data->in, data->out);
+	data->in = in;
+	data->out = out;
 	if (data->exit == 0)
 		executer(data, c->right, data->in, data->out);
 	if (c->prev && c->prev->token == PIPE)
@@ -27,10 +29,11 @@ void	exec_and(t_data *data, t_ast *c)
 	}
 }
 
-
-void	exec_or(t_data *data, t_ast *c)
+void	exec_or(t_data *data, t_ast *c, int in, int out)
 {
 	executer(data, c->left, data->in, data->out);
+	data->in = in;
+	data->out = out;
 	if (data->exit != 0)
 		executer(data, c->right, data->in, data->out);
 	if (c->prev && c->prev->token == PIPE)
@@ -49,9 +52,9 @@ void	executer(t_data *data, t_ast *c, int in, int out)
 	data->in = in;
 	data->out = out;
 	if (c->token == AND)
-		exec_and(data, c);
+		exec_and(data, c, in, out);
 	else if (c->token == OR)
-		exec_or(data, c);
+		exec_or(data, c, in, out);
 	else if (c->token == PIPE)
 		exec_pipe(data, c);
 	else

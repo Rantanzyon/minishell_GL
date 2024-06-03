@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/01 20:38:33 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:24:23 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ typedef struct s_data
 	int		exit;
 	int		in;
 	int		out;
-	int		backup_in;
-	int		backup_out;
 	int		pipelvl;
 }	t_data;
 
@@ -164,7 +162,7 @@ void	exec(t_data *data);
 void	heredoc(t_data *data, t_ast *c);
 void	executer(t_data *data, t_ast *c, int in, int out);
 void	exec_pipe(t_data *data, t_ast *c);
-void	exec_and(t_data *data, t_ast *c);
+void	exec_and(t_data *data, t_ast *c, int in, int out);
 void	exec_or(t_data *data, t_ast *c);
 void	exec_expr(t_data *data, t_ast *c);
 void	update_redir(t_data *data, t_ast *c);

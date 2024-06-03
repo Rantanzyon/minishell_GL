@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 08:43:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:16:54 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 	if (pid == 0)
 	{
 		update_redir(data, c);
+		dup2(data->in, STDIN_FILENO);
+		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);
 	}
 	if (data->in != STDIN_FILENO && c->prev_node != AND && c->prev_node != OR)
@@ -190,22 +192,16 @@ void	change_word(t_data *data, t_ast *c)
 
 void	exec_expr(t_data *data, t_ast *c)
 {
-	//change_word(data, c);
-	//print_ast(*data->ast, 0);
 	if (is_builtin(c))
 	{
-		data->backup_in = dup(data->in);
-		data->backup_out = dup(data->out);
 		update_redir(data, c);
 		builtin(data, c);
-		close_in(data);
-		close_out(data);
-		data->in = dup(data->backup_in);
-		data->out = dup(data->backup_out);
 	}
 	else if (c->prev && c->prev->token == PIPE)
 	{
 		update_redir(data, c);
+		dup2(data->in, STDIN_FILENO);
+		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);
 	}
 	else

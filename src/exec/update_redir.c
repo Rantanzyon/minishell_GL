@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/05/23 10:08:18 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:11:30 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,5 @@ void	update_redir(t_data *data, t_ast *c)
 			rr_redir(data, c->left);
 		c = c->right;
 	}
-	dup2(data->in, STDIN_FILENO);
-	dup2(data->out, STDOUT_FILENO);
 	// dprintf(2, "redir end | in: %d | out: %d\n", data->in, data->out);
 }
