@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/03 02:13:36 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:12:34 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	executer(t_data *data, t_ast *c, int in, int out);
 void	exec_pipe(t_data *data, t_ast *c);
 void	exec_and(t_data *data, t_ast *c, int in, int out);
 void	exec_or(t_data *data, t_ast *c, int in, int out);
-void	exec_expr(t_data *data, t_ast *c);
+void	exec_expr(t_data *data, t_ast *c, int in, int out);
 void	update_redir(t_data *data, t_ast *c);
 void	exec_cmd(t_data *data, t_ast *c);
 void	do_execve(t_data *data);
@@ -181,5 +181,9 @@ void	builtin_exit(t_data *data, t_ast *c);
 void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
 void	print_ast(t_ast *tree, int n);
+void	print_fds(t_data *data);
+void	close_useless_fds(t_data *data, t_list **lst);
+void	close_all_fds(t_data *data);
+void	lst_add_fd(t_data *data, int fd);
 
 #endif

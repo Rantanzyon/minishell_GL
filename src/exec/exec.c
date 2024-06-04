@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/03 20:12:08 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:17:08 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,31 @@
 
 void	exec_and(t_data *data, t_ast *c, int in, int out)
 {
-	executer(data, c->left, data->in, data->out);
-	data->in = in;
-	data->out = out;
+	//data->in = in;
+	//data->out = out;
+	executer(data, c->left, in, out);
+	// print_fds(data);
+	// dprintf(2, "node: %s | int: %d | out: %d\n", c->str, in, out);
+	//data->in = in;
+	//data->out = out;
 	if (data->exit == 0)
-		executer(data, c->right, data->in, data->out);
+		executer(data, c->right, in, out);
 	if (c->prev && c->prev->token == PIPE)
-	{
-		if (data->in != STDIN_FILENO)
-			close(data->in);
-		if (data->out != STDOUT_FILENO)
-			close(data->out);
 		data_destroy_exit(data, data->exit, NULL, NULL);
-	}
 }
 
 void	exec_or(t_data *data, t_ast *c, int in, int out)
 {
-	executer(data, c->left, data->in, data->out);
-	data->in = in;
-	data->out = out;
+	//data->in = in;
+	//data->out = out;
+	executer(data, c->left, in, out);
+	// print_fds(data);
+	//data->in = in;
+	//data->out = out;
 	if (data->exit != 0)
-		executer(data, c->right, data->in, data->out);
+		executer(data, c->right, in, out);
 	if (c->prev && c->prev->token == PIPE)
-	{
-		if (data->in != STDIN_FILENO)
-			close(data->in);
-		if (data->out != STDOUT_FILENO)
-			close(data->out);
 		data_destroy_exit(data, data->exit, NULL, NULL);
-	}
 }
 
 void	executer(t_data *data, t_ast *c, int in, int out)
@@ -58,7 +53,8 @@ void	executer(t_data *data, t_ast *c, int in, int out)
 	else if (c->token == PIPE)
 		exec_pipe(data, c);
 	else
-		exec_expr(data, c);
+		exec_expr(data, c, in, out);
+	//dprintf(2, "pwet\n");
 }
 
 

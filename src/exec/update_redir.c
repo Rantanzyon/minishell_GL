@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/02 23:11:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/03 21:38:37 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,41 @@
 
 void	l_redir(t_data *data, t_ast *c)
 {
-	if (data->in != STDIN_FILENO)
-		close(data->in);
-	data->in = open(c->str, O_RDONLY);
-	if (data->in == -1)
+	int	fd;
+	
+	fd= open(c->str, O_RDONLY);
+	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
+	data->in = fd;
+	ft_lstadd_back(data->fds, ft_lstnew(&fd));
 }
 
 void	ll_redir(t_data *data, t_ast *c)
 {
-	if (data->in != STDIN_FILENO)
-		close(data->in);
 	data->in = c->hdfd;
+	ft_lstadd_back(data->fds, ft_lstnew(&(c->hdfd)));
 }
 
 void	r_redir(t_data *data, t_ast *c)
 {
-	if (data->out != STDOUT_FILENO)
-		close(data->out);
-	data->out = open(c->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (data->out == -1)
+	int	fd;
+	
+	fd = open(c->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
+	data->out = fd;
+	ft_lstadd_back(data->fds, ft_lstnew(&fd));
 }
 
 void	rr_redir(t_data *data, t_ast *c)
 {
-	if (data->out != STDOUT_FILENO)
-		close(data->out);
-	data->out = open(c->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (data->out == -1)
+	int	fd;
+	
+	fd = open(c->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
+	data->out = fd;
+	ft_lstadd_back(data->fds, ft_lstnew(&fd));
 }
 
 void	update_redir(t_data *data, t_ast *c)

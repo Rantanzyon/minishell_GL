@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/03 02:25:17 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:13:13 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 	if (pid == 0)
 	{
 		update_redir(data, c);
+		close_useless_fds(data, data->fds);
 		dup2(data->in, STDIN_FILENO);
 		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);
@@ -111,6 +112,13 @@ void	change_node(t_data *data, t_ast *c)
 	char	*str;
 	char	*temp;
 
+	if (!ft_strcmp(c->str, "$?"))
+	{
+		free(c->str);
+		c->str = ft_itoa(data->exit);
+		return ;
+	}
+
 	i = 0;
 	str = ft_strdup("");
 	if (!str)
@@ -190,18 +198,24 @@ void	change_word(t_data *data, t_ast *c)
 		change_word(data, c->left);
 }
 
-void	exec_expr(t_data *data, t_ast *c)
+void	exec_expr(t_data *data, t_ast *c, int in, int out)
 {
+	//change_word(data, c);
+	//dprintf(2, "node: %s | int: %d | out: %d\n", c->str, data->in, data->out);
 	if (is_builtin(c))
 	{
 		update_redir(data, c);
+		close_useless_fds(data, data->fds);
 		builtin(data, c);
+		data->in = in;
+		data->out = out;
 		if (c->prev && c->prev->token == PIPE)
 			data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
 	}
 	else if (c->prev && c->prev->token == PIPE)
 	{
 		update_redir(data, c);
+		close_useless_fds(data, data->fds);
 		dup2(data->in, STDIN_FILENO);
 		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);
