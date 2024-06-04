@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:04:18 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/03 21:38:37 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:35:42 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	l_redir(t_data *data, t_ast *c)
 	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 	data->in = fd;
-	ft_lstadd_back(data->fds, ft_lstnew(&fd));
+	add_fd(data, fd);
 }
 
 void	ll_redir(t_data *data, t_ast *c)
 {
 	data->in = c->hdfd;
-	ft_lstadd_back(data->fds, ft_lstnew(&(c->hdfd)));
+	add_fd(data, c->hdfd);
 }
 
 void	r_redir(t_data *data, t_ast *c)
@@ -37,7 +37,7 @@ void	r_redir(t_data *data, t_ast *c)
 	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 	data->out = fd;
-	ft_lstadd_back(data->fds, ft_lstnew(&fd));
+	add_fd(data, fd);
 }
 
 void	rr_redir(t_data *data, t_ast *c)
@@ -48,7 +48,7 @@ void	rr_redir(t_data *data, t_ast *c)
 	if (fd == -1)
 		data_destroy_exit(data, EXIT_FAILURE, c->str, strerror(errno));
 	data->out = fd;
-	ft_lstadd_back(data->fds, ft_lstnew(&fd));
+	add_fd(data, fd);
 }
 
 void	update_redir(t_data *data, t_ast *c)

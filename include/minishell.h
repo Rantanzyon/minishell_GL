@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:06:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/04 10:12:34 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:45:25 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ typedef struct s_ast
 	struct s_ast	*prev;
 }	t_ast;
 
+typedef struct s_fds
+{
+	int				content;
+	struct s_fds	*next;
+}	t_fds;
+
 typedef struct s_data
 {
 	char	*input;
@@ -101,7 +107,7 @@ typedef struct s_data
 	t_list	**temp_final_lex;
 	t_list	**final_lex;
 	t_ast	**ast;
-	t_list	**fds;
+	t_fds	**fds;
 	int		actual_pid;
 	char	**args;
 	char	**path;
@@ -182,8 +188,9 @@ void	print_lex(t_data *data);
 void	print_lst(t_list **lst);
 void	print_ast(t_ast *tree, int n);
 void	print_fds(t_data *data);
-void	close_useless_fds(t_data *data, t_list **lst);
+void	close_useless_fds(t_data *data);
 void	close_all_fds(t_data *data);
 void	lst_add_fd(t_data *data, int fd);
+void	add_fd(t_data *data, int fd);
 
 #endif

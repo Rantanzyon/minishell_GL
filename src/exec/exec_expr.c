@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:16:43 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/04 10:13:13 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:45:52 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@ void	exec_cmd_fork(t_data *data, t_ast *c)
 		reloop(data, EXIT_FAILURE, "fork", strerror(errno));
 	if (pid == 0)
 	{
+		// dprintf(2, "node: %s | int: %d | out: %d\n", c->str, data->in, data->out);
 		update_redir(data, c);
-		close_useless_fds(data, data->fds);
+		// dprintf(2, "node: %s | int: %d | out: %d\n", c->str, data->in, data->out);
+		// print_fds(data);
+		close_useless_fds(data);
+		// print_fds(data);
 		dup2(data->in, STDIN_FILENO);
 		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);
 	}
-	if (data->in != STDIN_FILENO && c->prev_node != AND && c->prev_node != OR)
+/* 	if (data->in != STDIN_FILENO && c->prev_node != AND && c->prev_node != OR)
 		close(data->in);
 	if (data->out != STDOUT_FILENO && c->prev_node != AND && c->prev_node != OR)
-		close(data->out);
+		close(data->out); */
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		data->exit = WEXITSTATUS(status);
@@ -205,7 +209,7 @@ void	exec_expr(t_data *data, t_ast *c, int in, int out)
 	if (is_builtin(c))
 	{
 		update_redir(data, c);
-		close_useless_fds(data, data->fds);
+		close_useless_fds(data);
 		builtin(data, c);
 		data->in = in;
 		data->out = out;
@@ -215,7 +219,7 @@ void	exec_expr(t_data *data, t_ast *c, int in, int out)
 	else if (c->prev && c->prev->token == PIPE)
 	{
 		update_redir(data, c);
-		close_useless_fds(data, data->fds);
+		close_useless_fds(data);
 		dup2(data->in, STDIN_FILENO);
 		dup2(data->out, STDOUT_FILENO);
 		exec_cmd(data, c);

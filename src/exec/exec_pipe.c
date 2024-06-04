@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 19:15:16 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/03 23:40:55 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:51:00 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	close_parent(t_data *data, t_ast *c, int fd[2])
 
 void	print_fds(t_data *data)
 {
-	t_list *c;
+	t_fds *c;
 
 	dprintf(2, "--------\n");
 	// dprintf(2, "in: %d | out: %d\n", data->in, data->out);
@@ -71,30 +71,30 @@ void	print_fds(t_data *data)
 	while (c)
 	{
 		if (!c->content)
-			dprintf(2, "fd : NULL\n");
+			dprintf(2, "fd : closed\n");
 		else
-			dprintf(2, "fd : %d\n", *(int*)(c->content));
+			dprintf(2, "fd : %d\n", c->content);
 		c = c->next;
 	}
 	dprintf(2, "--------\n");
 }
 
 
-void	close_useless_fds(t_data *data, t_list **lst)
+void	close_useless_fds(t_data *data)
 {
-	t_list *c;
+	t_fds *c;
 
-	if (!lst)
+	if (!data->fds || !*data->fds)
 		return ;
-	c = *lst;
+	c = *data->fds;
 	while (c)
 	{
 		if (c->content)
 		{
-			if (data->in != *(int *)c->content && data->out != *(int *)c->content)
+			if (data->in != c->content && data->out != c->content)
 			{
-				close(*(int *)c->content);
-				*(int*)c->content = -1;
+				close(c->content);
+				c->content = 0;
 			}
 		}
 		c = c->next;
@@ -103,7 +103,7 @@ void	close_useless_fds(t_data *data, t_list **lst)
 
 void	close_all_fds(t_data *data)
 {
-	t_list *c;
+	t_fds *c;
 
 	if (!data->fds)
 		return ;
@@ -112,8 +112,8 @@ void	close_all_fds(t_data *data)
 	{
 		if (c->content)
 		{
-			close(*(int *)c->content);
-			c->content = NULL;
+			close(c->content);
+			c->content = 0;
 		}
 		// dprintf(2, "%d\n", *(int*)c->content);
 		c = c->next;
@@ -121,34 +121,43 @@ void	close_all_fds(t_data *data)
 	// dprintf(2, "--------\n");
 }
 
-void	lst_add_fd(t_data *data, int fd)
-{
-	t_list	*node;
-
-	node = ft_lstnew(&fd);
-	if (!node)
-	{
-		if (data->pipelvl > 0)
-			data_destroy_exit(data, EXIT_FAILURE, "node", strerror(ENOMEM));
-		reloop(data, EXIT_FAILURE, "node", strerror(ENOMEM));
-	}
-	ft_lstadd_back(data->fds, node);
-}
 
 void	close_specific_fd(t_data *data, int fd)
 {
-	t_list *c;
+	t_fds *c;
 
 	c = *data->fds;
 	while (c)
 	{
-		if (c->content && *(int*)c->content == fd)
+		if (c->content && c->content == fd)
 		{
-			close(*(int *)c->content);
-			c->content = NULL;
+			close(c->content);
+			c->content = 0;
 		}
 		c = c->next;
 	}
+}
+
+void	add_fd(t_data *data, int fd)
+{
+	t_fds	*new;
+	t_fds	*c;
+
+	new = malloc(sizeof(t_fds));
+	if (!new)
+		return ; // data destroy
+	new->content = fd;
+	new->next = NULL;
+
+	c = *data->fds;
+	if (c)
+	{
+		while (c->next)
+			c = c->next;
+		c->next = new;
+	}
+	else
+		*data->fds = new;
 }
 
 void	exec_pipe(t_data *data, t_ast *c)
@@ -161,8 +170,8 @@ void	exec_pipe(t_data *data, t_ast *c)
 	data->pipelvl++;
 	if (pipe(fd) == -1)
 		data_destroy_exit(data, EXIT_FAILURE, "pipe", strerror(errno));
-	ft_lstadd_back(data->fds, ft_lstnew(&fd[0]));
-	ft_lstadd_back(data->fds, ft_lstnew(&fd[1]));
+	add_fd(data, fd[0]);
+	add_fd(data, fd[1]);
 	// print_fds(data);
 	pid1 = child_left(data, c->left, fd);
 	pid2 = child_right(data, c->right, fd);

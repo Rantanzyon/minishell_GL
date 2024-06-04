@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:57 by bbialy            #+#    #+#             */
-/*   Updated: 2024/06/03 21:23:30 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:39:00 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ void	free_final_lex2(t_list **a)
 	free(a);
 }
 
+void	free_fds(t_data *data)
+{
+	t_fds	*c;
+	t_fds	*temp;
+	
+	if (!data->fds)
+		return ;
+	close_all_fds(data);
+	c = *data->fds;
+	while (c)
+	{
+		temp = c;
+		c = c->next;
+		free(temp);
+	}
+	free(data->fds);
+}
+
 void	data_destroy(t_data *data, int status, char *name, char *err)
 {
 	if (err)
@@ -83,7 +101,7 @@ void	data_destroy(t_data *data, int status, char *name, char *err)
 		free_final_lex2(data->temp_final_lex);
 		free_final_lex(data->final_lex);
 		free_env(data->env);
-		close_all_fds(data);
+		free_fds(data);
 		if (data->ast)
 		{
 			free_ast(*data->ast);

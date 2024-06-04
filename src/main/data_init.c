@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:25 by bbialy            #+#    #+#             */
-/*   Updated: 2024/06/02 23:07:35 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:09:04 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	data_init(t_data *data)
 	data->out = STDOUT_FILENO;
 	data->path = NULL;
 	data->args = NULL;
+	data->fds = NULL;
 	env_creation(data);
 }

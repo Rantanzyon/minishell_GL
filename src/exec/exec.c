@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 20:57:57 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/04 10:17:08 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:42:05 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	exec(t_data *data)
 	c = (*data->ast);
 	heredoc(data, c);
 	print_ast(*data->ast, 0);
-	data->fds = malloc(sizeof(t_list *));
+	data->fds = malloc(sizeof(t_fds *));
 	if (!data->fds)
 		reloop(data, EXIT_FAILURE, "data->fds", strerror(ENOMEM));
 	*data->fds = NULL;

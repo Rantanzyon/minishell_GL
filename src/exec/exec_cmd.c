@@ -6,7 +6,7 @@
 /*   By: glemaire <glemaire@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:09:54 by glemaire          #+#    #+#             */
-/*   Updated: 2024/06/01 20:04:48 by glemaire         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:16:35 by glemaire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,14 @@ void	exec_cmd(t_data *data, t_ast *c)
 {
 	data->args = cmd_array(data, c);
 	// si pas d'argument (only redir) => alors on close tout
-	if (data->args[0] == 0)
+/* 	if (data->args[0] == 0)
 	{
 		if (data->in != STDIN_FILENO)
 			close(data->in);
 		if (data->out != STDOUT_FILENO)
 			close(data->out);
 		data_destroy_exit(data, EXIT_SUCCESS, NULL, NULL);
-	}
+	} */
 	data->path = get_path(data, data->args);
 	do_execve(data);
 }
