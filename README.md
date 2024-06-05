@@ -121,12 +121,6 @@ Et voila, chaque expression peut maintenant lire et ecrire dans leur fd par defa
 Evidemment, si des redirect sont dans l'expression, il faut mettre a jour le data->in et data->out;  
 ATTENTION ! Ne pas oublier de close les fds inutilises dans les childs et dans les parents.  
 
-```(ls | grep -v a && echo hello) | cat```
-
-<img width="912" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/6ea4a6b3-e431-45cb-9a4e-0bd09257c96d">
-
-Ici, le token AND ne cree pas de nouveau pipe, il envoie juste le meme data->in et data->out aux nodes gauche puis droite, qui vont lire et ecrire au meme endroit par defaut.
-
 ## EXEMPLE DE CODE
 Grossierement, voici comment est construit l'execution en recursif.
 Evidemment, je montre juste l'idee globale, tout n'est pas gere dans ce morceau de code (la gestion des signaux, la gestion des closes, finir une node en la laissant remonter elle meme ou exit si on se trouve dans un child, etc...).  
