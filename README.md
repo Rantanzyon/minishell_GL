@@ -1,9 +1,5 @@
 # MINISHELL
 
-Minishell est un projet long a realiser, surtout si on veut le faire BIEN. C'est a dire qu'on cherche a se rapprocher le plus possible du comportement de bash.
-C'est le premier projet qui comporte autant de cas particuliers a gerer, c'est important d'avoir un certain souci du detail.
-N'essayez pas de tout faire a la va-vite. Prenez votre temps, testez les commandes avec bash et comprenez le raisonnement afin de reproduire le meme comportement.
-
 Apres avoir creer votre prompt avec la fonction readline(), Minishell se divise en 3 grosse parties :
 Le lexer, le parser, et enfin l'executer.
 
@@ -15,31 +11,32 @@ Par exemple :
 ```ls | cat``` 
 devient
 
-<img width="269" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/3d05fbea-36a1-4997-80d9-3c53f16f57c4">
 
-(Attention, ```ls |       cat``` ou ```ls|cat``` ou encore ```"ls"|   'cat'``` donnent le meme resultat.)
+<img width="331" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/b2c9c12b-0e3b-4151-a7f1-1c5407a99ccf">
 
-Autre exemple, un peu plus complexe :
 
-```(< Makefile cat && echo a) | wc -l``` devient
+(On remarque que ```ls |       cat```,  ```ls|cat``` ou encore ```"ls"|   'cat'``` donnent le meme resultat.)
 
-<img width="1065" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/04e1d356-1637-4c7a-b358-c3e43b1619d6">
+Autre exemple, avec plus de contenu:
 
-Comme le cas precedent, je peux l'ecrire de plusieurs facons... voici un exemple parmi tant d'autres:
+```< Makefile cat && echo hello | wc```
+<img width="930" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/69d2ea9e-445a-4519-8c3a-a8c4a77b8d01">
 
-```(<Makefile    'cat'&& "echo"      a   )|wc     '-l'```
+
+Comme le cas precedent, je peux l'ecrire de plusieurs facons... voici un exemple parmi tant d'autres:  
+```<Makefile    'cat'  &&echo   'h'"e"'ll'o   |wc```
 
 Notre liste de tokens :
-- WORD (un mot, qui sera un nom de commande, une option, un argument, un path...)
-- PIPE
-- AND
-- OR
-- R_REDIR ( > )
-- RR_REDIR ( >> )
-- L_REDIR ( < )
-- LL_REDIR ( << )
-- PAR_LEFT
-- PAR_RIGHT
+- WORD: (un mot, qui sera un nom de commande, une option, un argument, un path...)
+- PIPE:		|
+- AND:		&&
+- OR:		||
+- R_REDIR:	>
+- RR_REDIR:	>>
+- L_REDIR:	<
+- LL_REDIR:	<<
+- PAR_LEFT:	(
+- PAR_RIGHT:	)
 
 
 ## PARSER
@@ -47,23 +44,23 @@ Notre liste de tokens :
 Nous avons cree un AST (Abstract Syntax Tree), qui se comporte comme une liste chainee mais avec 2 pointeurs (right et left) vers les nodes suivantes, contrairement a une liste chainee classique qui n'en a qu'une.
 Cela a pour but d'organiser nos tokens par ordres de priorite, afin de faciliter l'executer.
 
-L'ordre de priorite a niveau EGAL (c'est a dire en prenant en compte les parentheses) est le suivant:
+L'ordre de priorite HORS PARENTHESES est le suivant:
 - AND / OR (en partant de la fin)
 - PIPE (en partant de la fin)
 - L_REDIR / LL_REDIR / R_REDIR / RR_REDIR (en partant du debut)
 - WORD (en partant du debut)
 
-Dans l'exemple precedent, notre AST ressemblera a ca :
-
-```(< Makefile cat && echo a) | wc -l```
-
-<img width="570" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/f992de3b-8440-458b-a087-c38b8a9a8462">
-
-A noter que sans les parentheses, notre input donnerait un AST ainsi qu'un resultat completement different :
+Dans l'exemple precedent, notre AST ressemblera a ca :  
 
 ```< Makefile cat && echo a | wc -l```
 
 <img width="666" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/35d59795-b302-4e6a-a822-06bf7ac5678f">
+
+A noter qu'avec les parentheses, notre input donnerait un AST ainsi qu'un resultat completement different :  
+```(< Makefile cat && echo a) | wc -l```
+
+<img width="570" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/f992de3b-8440-458b-a087-c38b8a9a8462">
+
 
 ```cat <Makefile | grep -v a | >> outfile wc > out -l```
 
