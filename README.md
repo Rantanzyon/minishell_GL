@@ -1,8 +1,7 @@
 ## Table des Matières
-- [Présentation du Projet](#présentation-du-projet)
-- [Comment Contribuer](#comment-contribuer)
-- [Fonctionnalités Principales](#fonctionnalités-principales)
-- [Questions Fréquemment Posées](#questions-fréquemment-posées)
+- [Lexer](#lexer)
+- [Parser](#parser)
+- [Executer](#executer)
 
 
 # MINISHELL
@@ -191,16 +190,5 @@ void	exec_expression(t_ast *node, int in, int out);
 }
 ```
 
-## Présentation du Projet
-Voici une présentation détaillée du projet.
-
-## Comment Contribuer
-Instructions pour contribuer au projet.
-
-## Fonctionnalités Principales
-Liste des fonctionnalités principales du projet.
-
-## Questions Fréquemment Posées
-Réponses aux questions fréquemment posées.
 
 
