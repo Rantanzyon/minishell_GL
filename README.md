@@ -124,6 +124,12 @@ Et voila, chaque expression peut maintenant lire et ecrire dans leur fd par defa
 Evidemment, si des redirect sont dans l'expression, il faut mettre a jour le data->in et data->out;  
 ATTENTION ! Ne pas oublier de close les fds inutilises dans les childs et dans les parents.  
 
+
+```c
+((A && B) | C | (D || E | F)) && G
+```
+<img width="1173" alt="image" src="https://github.com/Rantanzyon/minishell_GL/assets/144052557/cd8d86f1-2f0a-4135-9cc5-e4a9b88027b7">
+
 ## EXEMPLE DE CODE
 Grossierement, voici comment est construit l'execution en recursif.
 Evidemment, je montre juste l'idee globale, tout n'est pas gere dans ce morceau de code (la gestion des signaux, la gestion des closes, finir une node en la laissant remonter elle meme ou exit si on se trouve dans un child, etc...).  
